@@ -1,35 +1,22 @@
 /**
  * Created by shusesshou on 2017/9/6.
  */
-var path = require('path');
 var htmlWebpackPlugin = require('html-webpack-plugin');
+var webpack = require('webpack')
 
 module.exports = {
-    entry: path.resolve(__dirname, './src/js/index.js'),
+    entry: './src/main.js',
     output: {
-        path: path.resolve(__dirname, './dist'),
-        filename: './js/[name].js'
+        path: __dirname + "/dist",
+        publicPath: "/static",
+        filename: "build.js"
     },
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.vue$/,
-                loader: 'vue-loader'
-            },
-            {
-                test: /\.js$/,
-                loader: 'babel-loader',
-                query:{
-                    presets: 'es2015'
-                },
-                exclude: /node_modules/
+                use: ["vue-loader"]
             }
         ]
-    },
-    plugins: [
-        new htmlWebpackPlugin({
-            template: './src/index.html',
-            hash: true
-        })
-    ]
+    }
 }
