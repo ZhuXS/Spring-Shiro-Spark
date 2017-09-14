@@ -2,7 +2,9 @@ package com.zhuxs.service.impl;
 
 import com.zhuxs.bo.Count;
 import com.zhuxs.bo.Word;
+import com.zhuxs.bo.comparator.CountComparator;
 import com.zhuxs.service.WordCountService;
+import com.zhuxs.utils.RegsUtil;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.RelationalGroupedDataset;
@@ -30,11 +32,16 @@ public class WordCountServiceImpl implements WordCountService {
     private SparkSession sparkSession;
 
     public List<Count> wordCount(String words){
+        //format the words
+        words = RegsUtil.filterString(words);
         String[] tempWords = words.split(" ");
+
+        //create the dataframe
         List<Word> wordList = Arrays.stream(tempWords).map(Word::new).collect(Collectors.toList());
         Dataset<Row> dataFrame = sparkSession.createDataFrame(wordList,Word.class);
         dataFrame.show();
 
+        //count
         RelationalGroupedDataset groupedDataset = dataFrame.groupBy(col("word"));
         groupedDataset.count().show();
 
@@ -44,6 +51,6 @@ public class WordCountServiceImpl implements WordCountService {
             public Count apply(Row row) {
                 return new Count(row.getString(0),row.getLong(1));
             }
-        }).collect(Collectors.toList());
+        }).sorted(new CountComparator()).collect(Collectors.toList());
     }
 }

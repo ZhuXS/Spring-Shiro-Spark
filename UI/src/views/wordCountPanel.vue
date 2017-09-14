@@ -27,7 +27,7 @@
             </Col>
         </Row>
         <br/>
-        <Alert banner closable type="error" show-icon>请输入需要统计的词</Alert>
+        <Alert v-if="words.trim().length == 0" banner closable type="info" show-icon>请输入需要统计的词</Alert>
     </div>
 </template>
 
@@ -59,9 +59,6 @@
         methods: {
             count () {
                 this.loading = true
-                if(this.words = ""){
-                    alert("")
-                }
                 var postData = {"words" : this.words}
                 axios.post("http://localhost:8081/wordCount",postData).then(response => {
                     this.data = response.data

@@ -1,9 +1,11 @@
 package com.zhuxs.bo;
 
+import java.util.Comparator;
+
 /**
  * Created by shusesshou on 2017/9/4.
  */
-public class Count {
+public class Count{
     private String word;
     private long count;
 
@@ -29,4 +31,5 @@ public class Count {
     public void setCount(long count) {
         this.count = count;
     }
+
 }
