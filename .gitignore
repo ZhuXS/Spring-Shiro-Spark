@@ -1,0 +1,8 @@
+target/
+
+### IntelliJ IDEA ###
+Server/.idea
+UI/.idea
+Server/.idea/workspace.xml
+Server/.idea/workspace.xml
+UI/.idea/workspace.xml

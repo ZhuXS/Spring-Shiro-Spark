@@ -105,8 +105,8 @@
       <file leaf-file-name="wordCountPanel.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/views/wordCountPanel.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="13" column="28" lean-forward="false" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
+            <state relative-caret-position="831">
+              <caret line="74" column="30" lean-forward="false" selection-start-line="74" selection-start-column="30" selection-end-line="74" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -646,12 +646,12 @@
       <workItem from="1505094767106" duration="10662000" />
       <workItem from="1505120002633" duration="5092000" />
       <workItem from="1505372423647" duration="2029000" />
-      <workItem from="1505440309008" duration="86000" />
+      <workItem from="1505440309008" duration="1125000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26497000" />
+    <option name="totallyTimeSpent" value="27536000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1056,8 +1056,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/wordCountPanel.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="13" column="28" lean-forward="false" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
+        <state relative-caret-position="831">
+          <caret line="74" column="30" lean-forward="false" selection-start-line="74" selection-start-column="30" selection-end-line="74" selection-end-column="30" />
           <folding />
         </state>
       </provider>

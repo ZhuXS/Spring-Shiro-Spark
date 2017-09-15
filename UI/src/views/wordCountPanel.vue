@@ -4,7 +4,7 @@
             <Col span="12">
                 <ButtonGroup>
                     <Button>上传文件</Button>
-                    <Button>清空</Button>
+                    <Button @click="cleanWords">清空</Button>
                 </ButtonGroup>
             </Col>
             <Col span="12">
@@ -13,7 +13,7 @@
                         <span v-if="!loading">Count</span>
                         <span v-else>Counting...</span>
                     </Button>
-                    <Button>清空</Button>
+                    <Button @click="cleanTable">清空</Button>
                 </ButtonGroup>
             </Col>
         </Row>
@@ -68,6 +68,12 @@
                     this.loading = false
                 })
             },
+            cleanWords() {
+                this.words = ""
+            },
+            cleanTable() {
+                this.data = []
+            }
         }
     }
 </script>
