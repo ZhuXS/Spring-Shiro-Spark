@@ -1,9 +1,9 @@
-package com.zhuxs.controller;
+package com.zhuxs.result.controller;
 
-import com.zhuxs.bo.Count;
-import com.zhuxs.dto.TextDto;
-import com.zhuxs.service.WordCountService;
-import com.zhuxs.utils.ApplicationUtil;
+import com.zhuxs.result.bo.Count;
+import com.zhuxs.result.dto.TextDto;
+import com.zhuxs.result.service.WordCountService;
+import com.zhuxs.result.utils.ApplicationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.zhuxs.dto;
+package com.zhuxs.result.dto;
 
 /**
  * Created by shusesshou on 2017/9/11.

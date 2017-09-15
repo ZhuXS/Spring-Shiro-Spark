@@ -1,4 +1,4 @@
-package com.zhuxs.config;
+package com.zhuxs.result.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

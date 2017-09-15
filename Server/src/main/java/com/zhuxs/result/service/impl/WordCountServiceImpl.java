@@ -1,10 +1,10 @@
-package com.zhuxs.service.impl;
+package com.zhuxs.result.service.impl;
 
-import com.zhuxs.bo.Count;
-import com.zhuxs.bo.Word;
-import com.zhuxs.bo.comparator.CountComparator;
-import com.zhuxs.service.WordCountService;
-import com.zhuxs.utils.RegsUtil;
+import com.zhuxs.result.bo.Count;
+import com.zhuxs.result.bo.Word;
+import com.zhuxs.result.bo.comparator.CountComparator;
+import com.zhuxs.result.utils.RegsUtil;
+import com.zhuxs.result.service.WordCountService;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.RelationalGroupedDataset;
@@ -12,7 +12,6 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.apdplat.word.WordSegmenter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;

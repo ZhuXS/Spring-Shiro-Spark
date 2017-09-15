@@ -1,4 +1,4 @@
-package com.zhuxs.bo;
+package com.zhuxs.result.bo;
 
 /**
  * Created by shusesshou on 2017/9/4.

@@ -1,4 +1,4 @@
-package com.zhuxs;
+package com.zhuxs.result;
 
 import org.junit.Ignore;
 import org.junit.Test;

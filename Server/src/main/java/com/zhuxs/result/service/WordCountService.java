@@ -1,6 +1,6 @@
-package com.zhuxs.service;
+package com.zhuxs.result.service;
 
-import com.zhuxs.bo.Count;
+import com.zhuxs.result.bo.Count;
 
 import java.util.List;
 

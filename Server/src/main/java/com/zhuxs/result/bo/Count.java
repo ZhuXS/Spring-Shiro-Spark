@@ -1,4 +1,4 @@
-package com.zhuxs.bo;
+package com.zhuxs.result.bo;
 
 import java.util.Comparator;
 

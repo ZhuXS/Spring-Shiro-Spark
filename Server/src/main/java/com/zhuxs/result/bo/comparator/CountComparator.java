@@ -1,6 +1,6 @@
-package com.zhuxs.bo.comparator;
+package com.zhuxs.result.bo.comparator;
 
-import com.zhuxs.bo.Count;
+import com.zhuxs.result.bo.Count;
 
 import java.util.Comparator;
 
