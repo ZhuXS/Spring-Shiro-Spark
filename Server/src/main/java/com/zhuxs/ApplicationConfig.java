@@ -34,7 +34,7 @@ public class ApplicationConfig {
     public SparkConf sparkConf() {
         SparkConf sparkConf = new SparkConf()
                 .setAppName(appName)
-                .setMaster(masterUri);
+                .setMaster("local");
         return sparkConf;
     }
 

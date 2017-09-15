@@ -10,6 +10,7 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.RelationalGroupedDataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
+import org.apdplat.word.WordSegmenter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +35,14 @@ public class WordCountServiceImpl implements WordCountService {
     public List<Count> wordCount(String words){
         //format the words
         words = RegsUtil.filterString(words);
-        String[] tempWords = words.split(" ");
+        List<org.apdplat.word.segmentation.Word> segWords = WordSegmenter.segWithStopWords(words);
+        String[] tempWords = segWords.stream()
+                .map(word -> {
+                    return word.getText();
+                })
+                .collect(Collectors.toList())
+                .toArray(new String[segWords.size()]);
+
 
         //create the dataframe
         List<Word> wordList = Arrays.stream(tempWords).map(Word::new).collect(Collectors.toList());
@@ -43,8 +51,6 @@ public class WordCountServiceImpl implements WordCountService {
 
         //count
         RelationalGroupedDataset groupedDataset = dataFrame.groupBy(col("word"));
-        groupedDataset.count().show();
-
         List<Row> rows = groupedDataset.count().collectAsList();
         return rows.stream().map(new Function<Row, Count>() {
             @Override
