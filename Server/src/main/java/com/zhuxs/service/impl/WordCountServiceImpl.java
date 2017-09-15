@@ -13,6 +13,7 @@ import org.apache.spark.sql.SparkSession;
 import org.apdplat.word.WordSegmenter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +25,7 @@ import static org.apache.spark.sql.functions.col;
 /**
  * Created by shusesshou on 2017/9/4.
  */
-@Component
+@Service
 public class WordCountServiceImpl implements WordCountService {
     @Autowired
     private JavaSparkContext javaSparkContext;
@@ -35,7 +36,7 @@ public class WordCountServiceImpl implements WordCountService {
     public List<Count> wordCount(String words){
         //format the words
         words = RegsUtil.filterString(words);
-        List<org.apdplat.word.segmentation.Word> segWords = WordSegmenter.segWithStopWords(words);
+        List<org.apdplat.word.segmentation.Word> segWords = WordSegmenter.seg(words);
         String[] tempWords = segWords.stream()
                 .map(word -> {
                     return word.getText();
