@@ -20,6 +20,10 @@ import javax.persistence.Entity;
  */
 @Configuration
 @PropertySource("classpath:application.properties")
+@EnableJpaRepositories(basePackages = {
+        "com.zhuxs.result.domain"
+})
+@EntityScan("com.zhuxs.result.domain.entity")
 public class ApplicationConfig {
 
     @Autowired
