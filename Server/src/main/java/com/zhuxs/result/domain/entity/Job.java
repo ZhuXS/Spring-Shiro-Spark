@@ -2,7 +2,7 @@ package com.zhuxs.result.domain.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  * Created by shusesshou on 2017/9/15.
@@ -18,17 +18,15 @@ public class Job {
     @NotNull
     private  int type;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "start_time")
     @NotNull
-    private Date startDate;
+    private Timestamp startDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "start_time")
+    @Column(name = "end_time")
     @NotNull
-    private Date endDate;
+    private Timestamp endDate;
 
-    public Job(int type, Date startDate, Date endDate) {
+    public Job(int type, Timestamp startDate, Timestamp endDate) {
         this.type = type;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -53,19 +51,19 @@ public class Job {
         this.type = type;
     }
 
-    public Date getStartDate() {
+    public Timestamp getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(Timestamp startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public Timestamp getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(Timestamp endDate) {
         this.endDate = endDate;
     }
 

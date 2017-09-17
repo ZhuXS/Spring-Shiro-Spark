@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class WordCountController {
     public ResponseEntity<List<Count>> getCounts(@RequestBody TextDto words,
                                                  UriComponentsBuilder uriComponentsBuilder){
         HttpHeaders headers = ApplicationUtil.getHttpHeaders(uriComponentsBuilder,PATH);
-        Job job = new Job(1, new Date(),new Date());
+        Job job = new Job();
         jobRepo.save(job);
         Job job1 = jobRepo.findOne(1L);
         return new ResponseEntity<>(wordCountService.wordCount(words.getWords()),HttpStatus.OK);
