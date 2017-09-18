@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Table(name = "RESULT_JOB")
 public class Job {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "type")
