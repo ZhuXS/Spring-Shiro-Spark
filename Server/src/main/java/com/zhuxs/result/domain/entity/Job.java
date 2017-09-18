@@ -1,5 +1,7 @@
 package com.zhuxs.result.domain.entity;
 
+import com.zhuxs.result.domain.enums.JobStatus;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
@@ -23,13 +25,24 @@ public class Job {
     private Timestamp startDate;
 
     @Column(name = "end_time")
-    @NotNull
     private Timestamp endDate;
 
-    public Job(int type, Timestamp startDate, Timestamp endDate) {
+    @Column(name = "status")
+    @NotNull
+    private JobStatus status;
+
+    public JobStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(JobStatus status) {
+        this.status = status;
+    }
+
+    public Job(int type, Timestamp startDate, JobStatus status) {
         this.type = type;
         this.startDate = startDate;
-        this.endDate = endDate;
+        this.status = status;
     }
 
     public Job() {
@@ -77,7 +90,8 @@ public class Job {
         if (type != job.type) return false;
         if (id != null ? !id.equals(job.id) : job.id != null) return false;
         if (startDate != null ? !startDate.equals(job.startDate) : job.startDate != null) return false;
-        return endDate != null ? endDate.equals(job.endDate) : job.endDate == null;
+        if (endDate != null ? !endDate.equals(job.endDate) : job.endDate != null) return false;
+        return status == job.status;
     }
 
     @Override
@@ -86,6 +100,7 @@ public class Job {
         result = 31 * result + type;
         result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
         result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
         return result;
     }
 }
