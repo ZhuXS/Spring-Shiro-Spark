@@ -27,7 +27,6 @@
             </Col>
         </Row>
         <br/>
-        <Alert v-if="words.trim().length == 0" banner closable type="info" show-icon>请输入需要统计的词</Alert>
     </div>
 </template>
 
@@ -59,13 +58,25 @@
         methods: {
             count () {
                 this.loading = true
+                if(this.words.trim() == ""){
+                    this.$Notice.warning({
+                        title: 'WARNING',
+                        desc: "请输入要统计的文字",
+                        duration: 1
+                    })
+                    this.loading = false
+                    return
+                }
                 var postData = {"words" : this.words}
                 axios.post("http://localhost:8081/jobs/0",postData).then(response => {
-                    alert(response.status)
                     this.data = response.data
                     this.loading = false
                 }).catch(e => {
-                    alert(e.response.data.msg)
+                    this.$Notice.error({
+                        title: 'ERROR',
+                        desc: e.response.data.msg,
+                        duration: 2
+                    })
                     this.loading = false
                 })
             },

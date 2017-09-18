@@ -48,7 +48,6 @@ public class WordCountServiceImpl implements WordCountService {
                     })
                     .collect(Collectors.toList())
                     .toArray(new String[segWords.size()]);
-            tempWords[tempWords.length] = "test";
         }catch (Exception e){
             throw new ResultException("Illegal Input",e, ErrorCode.ERROR);
         }
