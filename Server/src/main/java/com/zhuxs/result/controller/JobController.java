@@ -1,5 +1,6 @@
 package com.zhuxs.result.controller;
 
+import com.zhuxs.result.Exception.ResultException;
 import com.zhuxs.result.bo.Count;
 import com.zhuxs.result.domain.JobRepo;
 import com.zhuxs.result.domain.entity.Job;
@@ -37,7 +38,7 @@ public class JobController {
 
     @PostMapping(value = SUBPATH_WORDCOUNT)
     public ResponseEntity<List<Count>> getCounts(@RequestBody TextDto words,
-                                                 UriComponentsBuilder uriComponentsBuilder){
+                                                 UriComponentsBuilder uriComponentsBuilder) throws ResultException{
         HttpHeaders headers = ApplicationUtil.getHttpHeaders(uriComponentsBuilder,PATH);
         return new ResponseEntity<>(wordCountService.wordCount(words.getWords()),HttpStatus.OK);
     }

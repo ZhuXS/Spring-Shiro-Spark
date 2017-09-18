@@ -1,4 +1,4 @@
-package com.zhuxs.result;
+package com.zhuxs.result.config;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;

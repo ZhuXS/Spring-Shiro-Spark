@@ -4,6 +4,7 @@ import com.zhuxs.result.Exception.ResultException;
 import com.zhuxs.result.bo.Count;
 import com.zhuxs.result.bo.Word;
 import com.zhuxs.result.bo.comparator.CountComparator;
+import com.zhuxs.result.domain.enums.ErrorCode;
 import com.zhuxs.result.utils.RegsUtil;
 import com.zhuxs.result.service.WordCountService;
 import org.apache.spark.api.java.JavaSparkContext;
@@ -33,7 +34,7 @@ public class WordCountServiceImpl implements WordCountService {
     @Autowired
     private SparkSession sparkSession;
 
-    public List<Count> wordCount(String words){
+    public List<Count> wordCount(String words) throws ResultException{
         //declare the var
         String[] tempWords = {};
         Dataset<Row> dataFrame;
@@ -47,9 +48,9 @@ public class WordCountServiceImpl implements WordCountService {
                     })
                     .collect(Collectors.toList())
                     .toArray(new String[segWords.size()]);
-
+            tempWords[tempWords.length] = "test";
         }catch (Exception e){
-            throw new ResultException();
+            throw new ResultException("Illegal Input",e, ErrorCode.ERROR);
         }
 
         //create the dataframe
@@ -58,7 +59,7 @@ public class WordCountServiceImpl implements WordCountService {
             dataFrame = sparkSession.createDataFrame(wordList,Word.class);
             dataFrame.show();
         }catch (Exception e){
-            throw new ResultException();
+            throw new ResultException("CreateDataFrame Error",e,ErrorCode.ERROR);
         }
 
         //count
@@ -72,7 +73,7 @@ public class WordCountServiceImpl implements WordCountService {
                 }
             }).sorted(new CountComparator()).collect(Collectors.toList());
         }catch (Exception e){
-            throw new ResultException();
+            throw new ResultException("Count Error",e,ErrorCode.ERROR);
         }
     }
 }

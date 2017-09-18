@@ -65,7 +65,7 @@
                     this.data = response.data
                     this.loading = false
                 }).catch(e => {
-                    alert(e)
+                    alert(e.response.data.msg)
                     this.loading = false
                 })
             },
