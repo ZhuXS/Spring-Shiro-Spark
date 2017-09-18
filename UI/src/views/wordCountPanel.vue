@@ -60,7 +60,8 @@
             count () {
                 this.loading = true
                 var postData = {"words" : this.words}
-                axios.post("http://localhost:8081/wordCount",postData).then(response => {
+                axios.post("http://localhost:8081/jobs/0",postData).then(response => {
+                    alert(response.status)
                     this.data = response.data
                     this.loading = false
                 }).catch(e => {

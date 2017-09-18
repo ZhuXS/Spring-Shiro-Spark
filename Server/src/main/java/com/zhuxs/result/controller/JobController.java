@@ -17,17 +17,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 /**
  * Created by shusesshou on 2017/9/4.
  */
-@RequestMapping(value = WordCountController.PATH,produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = JobController.PATH,produces = MediaType.APPLICATION_JSON_VALUE)
 @Controller
-public class WordCountController {
-    public static final String PATH = "wordCount";
+public class JobController {
+    public static final String PATH = "jobs";
+
+    public static final String SUBPATH_WORDCOUNT = "0";
 
     @Autowired
     private WordCountService wordCountService;
@@ -35,13 +35,10 @@ public class WordCountController {
     @Autowired
     private JobRepo jobRepo;
 
-    @PostMapping
+    @PostMapping(value = SUBPATH_WORDCOUNT)
     public ResponseEntity<List<Count>> getCounts(@RequestBody TextDto words,
                                                  UriComponentsBuilder uriComponentsBuilder){
         HttpHeaders headers = ApplicationUtil.getHttpHeaders(uriComponentsBuilder,PATH);
-        Job job = new Job();
-        jobRepo.save(job);
-        Job job1 = jobRepo.findOne(1L);
         return new ResponseEntity<>(wordCountService.wordCount(words.getWords()),HttpStatus.OK);
     }
 }
