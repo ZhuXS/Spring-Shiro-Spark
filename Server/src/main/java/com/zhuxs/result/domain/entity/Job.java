@@ -18,7 +18,7 @@ public class Job {
 
     @Column(name = "type")
     @NotNull
-    private  int type;
+    private Integer type;
 
     @Column(name = "start_time")
     @NotNull
@@ -56,11 +56,11 @@ public class Job {
         this.id = id;
     }
 
-    public int getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
