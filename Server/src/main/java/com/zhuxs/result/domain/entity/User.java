@@ -47,7 +47,7 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "roleId",referencedColumnName = "id")})
     @CollectionId(columns = @Column(name = "id"),
             type = @Type(type = "long"),
-            generator = "auto")
+            generator = "sequence")
     private List<Role> roles = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user",fetch = FetchType.LAZY)
