@@ -2,8 +2,7 @@ package com.zhuxs.result.controller;
 
 import com.zhuxs.result.Exception.ResultException;
 import com.zhuxs.result.bo.Count;
-import com.zhuxs.result.domain.JobRepo;
-import com.zhuxs.result.domain.entity.Job;
+import com.zhuxs.result.domain.JobDao;
 import com.zhuxs.result.dto.TextDto;
 import com.zhuxs.result.service.WordCountService;
 import com.zhuxs.result.utils.ApplicationUtil;
@@ -34,7 +33,7 @@ public class JobController {
     private WordCountService wordCountService;
 
     @Autowired
-    private JobRepo jobRepo;
+    private JobDao jobDao;
 
     @PostMapping(value = SUBPATH_WORDCOUNT)
     public ResponseEntity<List<Count>> getCounts(@RequestBody TextDto words,

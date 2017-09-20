@@ -13,6 +13,6 @@ import java.util.List;
  */
 @Transactional
 @Repository
-public interface JobRepo extends JpaRepository<Job,Long> {
+public interface JobDao extends JpaRepository<Job,Long> {
     public List<Job> findAllByEndDate(Date date);
 }
