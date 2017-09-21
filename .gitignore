@@ -3,9 +3,12 @@ target/
 ### IntelliJ IDEA ###
 Server/.idea
 UI/.idea
+UI/node_modules
+UI/dist
 Server/.idea/workspace.xml
 Server/.idea/workspace.xml
 UI/.idea/workspace.xml
 Server/.idea/workspace.xml
 UI/.idea/workspace.xml
 .DS_Store
+
