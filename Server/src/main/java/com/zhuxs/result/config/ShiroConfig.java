@@ -83,9 +83,9 @@ public class ShiroConfig {
 
         Map<String, Filter> filters = new LinkedHashMap<String,Filter>();
         LogoutFilter logoutFilter = new LogoutFilter();
-        logoutFilter.setRedirectUrl("/jobs/0");
+        logoutFilter.setRedirectUrl("/login");
         shiroFilterFactoryBean.setFilters(filters);
-        shiroFilterFactoryBean.setLoginUrl("/jobs/0");
+        shiroFilterFactoryBean.setLoginUrl("/login");
 
         Map<String,String> filterChainDefinitionManager = new LinkedHashMap<String,String>();
         filterChainDefinitionManager.put("/logout","logout");
