@@ -4,23 +4,23 @@ package com.zhuxs.result.dto;
  * Created by shusesshou on 2017/9/22.
  */
 public class UserDto {
-    private String usrname;
+    private String username;
     private String password;
 
     public UserDto() {
     }
 
-    public UserDto(String usrname, String password) {
-        this.usrname = usrname;
+    public UserDto(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 
-    public String getUsrname() {
-        return usrname;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUsrname(String usrname) {
-        this.usrname = usrname;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -38,13 +38,13 @@ public class UserDto {
 
         UserDto userDto = (UserDto) o;
 
-        if (usrname != null ? !usrname.equals(userDto.usrname) : userDto.usrname != null) return false;
+        if (username != null ? !username.equals(userDto.username) : userDto.username != null) return false;
         return password != null ? password.equals(userDto.password) : userDto.password == null;
     }
 
     @Override
     public int hashCode() {
-        int result = usrname != null ? usrname.hashCode() : 0;
+        int result = username != null ? username.hashCode() : 0;
         result = 31 * result + (password != null ? password.hashCode() : 0);
         return result;
     }

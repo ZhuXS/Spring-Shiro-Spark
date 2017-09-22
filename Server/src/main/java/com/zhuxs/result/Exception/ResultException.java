@@ -12,6 +12,10 @@ public class ResultException extends RuntimeException{
     public ResultException() {
     }
 
+    public ResultException(String message) {
+        super(message);
+    }
+
     public ResultException(String message, ErrorCode errorCode) {
         super(message);
         this.errorCode = errorCode;

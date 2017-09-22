@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -18,17 +17,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    //@Autowired
+    //private UserDao userDao;
+
     @PostMapping(value = "/login")
     public String login(@RequestBody UserDto userDto){
-        logger.info("================userInfo================username: " + userDto.getUsrname() + ",pw: " + userDto.getPassword());
+        logger.info("================userInfo================username: " + userDto.getUsername() + ",pw: " + userDto.getPassword());
         Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(userDto.getUsrname(),userDto.getPassword());
+        UsernamePasswordToken token = new UsernamePasswordToken(userDto.getUsername(),userDto.getPassword());
+        //User user = new User("root","root","root","root");
+        //userDao.save(user);
 
         try{
             subject.login(token);
         } catch (Exception e){
             logger.error("======登录失败======");
+            return "Failure";
         }
-        return "Success";
+        return SecurityUtils.getSubject().getSession().getAttribute("user").toString();
     }
 }

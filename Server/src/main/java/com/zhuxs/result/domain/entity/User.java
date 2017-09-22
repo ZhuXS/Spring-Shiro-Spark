@@ -39,7 +39,7 @@ public class User {
 
     @Column(name = "status")
     @NotNull
-    private UserStatus status;
+    private UserStatus status = UserStatus.CREATE;
 
     @ManyToMany
     @JoinTable(name = "user_role",
