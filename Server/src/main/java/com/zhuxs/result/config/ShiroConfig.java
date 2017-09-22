@@ -90,6 +90,7 @@ public class ShiroConfig {
         Map<String,String> filterChainDefinitionManager = new LinkedHashMap<String,String>();
         filterChainDefinitionManager.put("/logout","logout");
         filterChainDefinitionManager.put("/jobs/**","authc");
+        filterChainDefinitionManager.put("/**","authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionManager);
 
         shiroFilterFactoryBean.setSuccessUrl("/");

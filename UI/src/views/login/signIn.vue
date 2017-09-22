@@ -1,17 +1,17 @@
 <template>
-    <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
+    <Form ref="userInfo" :model="userInfo" :rules="ruleInline" inline>
         <FormItem prop="user">
-            <Input type="text" v-model="formInline.user" placeholder="Username">
+            <Input type="text" v-model="userInfo.username" placeholder="Username">
             <Icon type="ios-person-outline" slot="prepend"></Icon>
             </Input>
         </FormItem>
         <FormItem prop="password">
-            <Input type="password" v-model="formInline.password" placeholder="Password">
+            <Input type="password" v-model="userInfo.password" placeholder="Password">
             <Icon type="ios-locked-outline" slot="prepend"></Icon>
             </Input>
         </FormItem>
         <FormItem>
-            <Button type="primary" @click="handleSubmit('formInline')">登录</Button>
+            <Button type="primary" @click="handleSubmit('userInfo')">登录</Button>
         </FormItem>
     </Form>
 </template>
@@ -19,12 +19,12 @@
     export default {
         data () {
             return {
-                formInline: {
-                    user: '',
+                userInfo: {
+                    username: '',
                     password: ''
                 },
                 ruleInline: {
-                    user: [
+                    username: [
                         { required: true, message: '请填写用户名', trigger: 'blur' }
                     ],
                     password: [
@@ -38,7 +38,10 @@
             handleSubmit(name) {
                 this.$refs[name].validate((valid) => {
                     if (valid) {
-                        this.$Message.success('提交成功!');
+                        this.$store.dispatch('Login',this.userInfo).then(() => {
+                            this.$Message.success('提交成功!');
+                        })
+
                     } else {
                         this.$Message.error('表单验证失败!');
                     }

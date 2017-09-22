@@ -7,13 +7,13 @@ import store from '../store'
 
 //创建axios实例
 const service = axios.create({
-    baseURL: "localhost:8081",
+    baseURL: "http://localhost:8081/job/0",
     timeout: 5000   //请求超时时间
 })
 
 //request拦截器
 service.interceptors.request.use(config => {
-    if(store.getters.status()){
+    if(store.getters.status){
         //take token or sessionId
     }
     return config
