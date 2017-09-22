@@ -4,7 +4,7 @@
 import Cookies from 'js-cookie'
 import { login } from '../../api/login'
 
-const app = {
+const user = {
     state: {
         username: '',
         status: ''
