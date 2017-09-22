@@ -67,6 +67,11 @@
 			<artifactId>scala-library</artifactId>
 			<version>2.11.8</version>
 		</dependency>
+		<!--  Spring Boot Redis -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-redis</artifactId>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-spring -->
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
