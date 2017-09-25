@@ -16,7 +16,7 @@ public class ShiroSessionListener implements SessionListener {
     private static final Logger logger = LoggerFactory.getLogger(ShiroSessionListener.class);
 
     @Autowired
-    private CachingShiroSessionDao cachingShiroSessionDao;
+    private ShiroSessionDao shiroSessionDao;
 
     @Autowired
     private JedisPool jedisPool;
@@ -28,7 +28,7 @@ public class ShiroSessionListener implements SessionListener {
 
     @Override
     public void onStop(Session session) {
-        cachingShiroSessionDao.delete(session);
+        shiroSessionDao.delete(session);
         Jedis jedis = jedisPool.getResource();
         jedis.publish("shiro.session.uncache",(String) session.getId());
         logger.debug("session {} onStop", session.getId());
@@ -36,7 +36,7 @@ public class ShiroSessionListener implements SessionListener {
 
     @Override
     public void onExpiration(Session session) {
-        cachingShiroSessionDao.delete(session);
+        shiroSessionDao.delete(session);
         Jedis jedis = jedisPool.getResource();
         jedis.publish("shiro.session.uncache",(String) session.getId());
         logger.debug("session {} onExpiration", session.getId());

@@ -6,8 +6,6 @@ import org.apache.shiro.session.mgt.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * Created by shusesshou on 2017/9/22.
  */

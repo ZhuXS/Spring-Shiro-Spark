@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +30,8 @@ public class ShiroRealm extends AuthorizingRealm{
     private UserDao userDao;
     @Autowired
     private PermissionDao permissionDao;
+    @Autowired
+    private ShiroSessionDao shiroSessionDao;
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
@@ -64,7 +67,9 @@ public class ShiroRealm extends AuthorizingRealm{
         if(user != null){
             //登陆成功
             Session session = SecurityUtils.getSubject().getSession();
-            session.setAttribute("user",user);
+            session.setAttribute("id",user.getId());
+            session.setAttribute("username",user.getUsername());
+            session.setAttribute("name",user.getName());
             return new SimpleAuthenticationInfo(
                     userName, //用户
                     user.getPassword(), //密码

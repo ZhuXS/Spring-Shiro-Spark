@@ -27,6 +27,7 @@ public class LoginController {
         UsernamePasswordToken token = new UsernamePasswordToken(userDto.getUsername(),userDto.getPassword());
         //User user = new User("root","root","root","root");
         //userDao.save(user);
+        
 
         try{
             subject.login(token);
@@ -34,6 +35,6 @@ public class LoginController {
             logger.error("======登录失败======");
             return "Failure";
         }
-        return SecurityUtils.getSubject().getSession().getAttribute("user").toString();
+        return SecurityUtils.getSubject().getSession().getAttribute("username").toString();
     }
 }

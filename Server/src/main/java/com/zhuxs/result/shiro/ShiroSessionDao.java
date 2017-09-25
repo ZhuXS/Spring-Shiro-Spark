@@ -29,15 +29,15 @@ import java.util.Set;
  * Shiro内部相应的组件(DefaultSecurityManager)会自动检测相应的对象(Realm)是否实现了CacheManagerAware并注入相应的CacheManager
  */
 @Service
-public class CachingShiroSessionDao extends CachingSessionDAO{
+public class ShiroSessionDao extends CachingSessionDAO{
 
-    private static final Logger logger = LoggerFactory.getLogger(CachingShiroSessionDao.class);
+    private static final Logger logger = LoggerFactory.getLogger(ShiroSessionDao.class);
 
     //保存到Redis中key的前缀
     private String prefix = "";
 
     //设置会话的过期时间
-    private int seconds = 30;
+    private int expireTime = 3600000;
 
     //特殊配置 只用于没有redis时，将session放到EhCache中
     private Boolean onlyEhcache;
@@ -93,7 +93,7 @@ public class CachingShiroSessionDao extends CachingSessionDAO{
                     transaction = jedis.multi();
                     shiroSession.setIsChanged(false);
                     shiroSession.setLastAccessTime(DateTime.now().toDate());
-                    transaction.setex(prefix + session.getId(),seconds,SerializeUtils.serializaToString(shiroSession));
+                    transaction.setex(prefix + session.getId(),expireTime,SerializeUtils.serializaToString(shiroSession));
                     logger.debug("sessionId {} name {} 被更新", session.getId(), session.getClass().getName());
                     //执行事务
                     transaction.exec();
@@ -161,8 +161,8 @@ public class CachingShiroSessionDao extends CachingSessionDAO{
         try{
             jedis = jedisPool.getResource();
             //session由Redis缓存失效决定，这里作简单标识
-            session.setTimeout(seconds);
-            jedis.setex(prefix + sessionId, seconds, SerializeUtils.serializaToString((ShiroSession) session));
+            session.setTimeout(expireTime);
+            jedis.setex(prefix + sessionId, expireTime, SerializeUtils.serializaToString((ShiroSession) session));
             logger.info("sessionId {} name {} 被创建", sessionId, session.getClass().getName());
         }catch (Exception e){
             logger.warn("创建session失败",e);
@@ -184,7 +184,7 @@ public class CachingShiroSessionDao extends CachingSessionDAO{
                 session = SerializeUtils.deserializeFromString(value);
                 logger.info("sessionId {} ttl {}: ", sessionId, jedis.ttl(key));
                 //重置Redis中缓存过期的时间
-                jedis.expire(key,seconds);
+                jedis.expire(key,expireTime);
                 logger.info("sessionId {} name {} 被读取", sessionId, session.getClass().getName());
             }
         } catch (Exception e){
@@ -249,7 +249,15 @@ public class CachingShiroSessionDao extends CachingSessionDAO{
         this.prefix = prefix;
     }
 
-    public void setSeconds(int seconds) {
-        this.seconds = seconds;
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public int getExpireTime() {
+        return expireTime;
+    }
+
+    public void setExpireTime(int expireTime) {
+        this.expireTime = expireTime;
     }
 }
