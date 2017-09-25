@@ -25,7 +25,7 @@ public class Permission {
      */
     @Column(name = "url")
     @NotNull
-    private String url;
+    private String resource;
 
     @Column(name = "type")
     @NotNull
@@ -38,9 +38,9 @@ public class Permission {
     public Permission() {
     }
 
-    public Permission(String name, String url, ResourceType type) {
+    public Permission(String name, String resource, ResourceType type) {
         this.name = name;
-        this.url = url;
+        this.resource = resource;
         this.type = type;
     }
 
@@ -60,14 +60,6 @@ public class Permission {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public ResourceType getType() {
         return type;
     }
@@ -84,6 +76,14 @@ public class Permission {
         this.role = role;
     }
 
+    public String getResource() {
+        return resource;
+    }
+
+    public void setResource(String resource) {
+        this.resource = resource;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -93,7 +93,7 @@ public class Permission {
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (url != null ? !url.equals(that.url) : that.url != null) return false;
+        if (resource != null ? !resource.equals(that.resource) : that.resource != null) return false;
         if (type != that.type) return false;
         return role != null ? role.equals(that.role) : that.role == null;
     }
@@ -102,7 +102,7 @@ public class Permission {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (url != null ? url.hashCode() : 0);
+        result = 31 * result + (resource != null ? resource.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (role != null ? role.hashCode() : 0);
         return result;

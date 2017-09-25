@@ -27,7 +27,7 @@ public class LoginController {
         UsernamePasswordToken token = new UsernamePasswordToken(userDto.getUsername(),userDto.getPassword());
         //User user = new User("root","root","root","root");
         //userDao.save(user);
-        
+
 
         try{
             subject.login(token);
