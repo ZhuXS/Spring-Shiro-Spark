@@ -1,6 +1,7 @@
 package com.zhuxs.result.service.impl;
 
 import com.zhuxs.result.domain.RoleDao;
+import com.zhuxs.result.domain.entity.Permission;
 import com.zhuxs.result.domain.entity.Role;
 import com.zhuxs.result.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,10 @@ public class RoleServiceImpl implements RoleService{
     public List<Role> listRoles() {
         List<Role> roles = roleDao.findAll();
         return roles;
+    }
+
+    @Override
+    public Role updatePermissionsById(List<Permission> permissions) {
+        return null;
     }
 }

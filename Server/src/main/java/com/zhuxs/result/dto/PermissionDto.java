@@ -6,6 +6,7 @@ import com.zhuxs.result.domain.enums.ResourceType;
  * Created by shusesshou on 2017/9/25.
  */
 public class PermissionDto {
+    private long id;
     private String name;
     private String resource;
     private ResourceType resourceType;
@@ -14,6 +15,13 @@ public class PermissionDto {
     }
 
     public PermissionDto(String name, String resource, ResourceType resourceType) {
+        this.name = name;
+        this.resource = resource;
+        this.resourceType = resourceType;
+    }
+
+    public PermissionDto(long id, String name, String resource, ResourceType resourceType) {
+        this.id = id;
         this.name = name;
         this.resource = resource;
         this.resourceType = resourceType;
@@ -43,6 +51,10 @@ public class PermissionDto {
         this.resourceType = resourceType;
     }
 
+    public PermissionDto(long id) {
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -50,6 +62,7 @@ public class PermissionDto {
 
         PermissionDto that = (PermissionDto) o;
 
+        if (id != that.id) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (resource != null ? !resource.equals(that.resource) : that.resource != null) return false;
         return resourceType == that.resourceType;
@@ -57,7 +70,8 @@ public class PermissionDto {
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (resource != null ? resource.hashCode() : 0);
         result = 31 * result + (resourceType != null ? resourceType.hashCode() : 0);
         return result;
