@@ -4,10 +4,14 @@ import com.zhuxs.result.domain.PermissionDao;
 import com.zhuxs.result.domain.entity.Permission;
 import com.zhuxs.result.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by shusesshou on 2017/9/25.
  */
+@Service
 public class PermissionServiceImpl implements PermissionService {
     @Autowired
     private PermissionDao permissionDao;
@@ -16,4 +20,11 @@ public class PermissionServiceImpl implements PermissionService {
         permissionDao.save(permission);
         return null;
     }
+
+    @Override
+    public List<Permission> listPermissions() {
+        List<Permission> permissions = permissionDao.findAll();
+        return permissions;
+    }
+
 }
