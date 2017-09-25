@@ -1,5 +1,7 @@
 package com.zhuxs.result.service.impl;
 
+import com.sun.org.apache.regexp.internal.RE;
+import com.zhuxs.result.Exception.ResultException;
 import com.zhuxs.result.domain.RoleDao;
 import com.zhuxs.result.domain.entity.Permission;
 import com.zhuxs.result.domain.entity.Role;
@@ -29,7 +31,17 @@ public class RoleServiceImpl implements RoleService{
     }
 
     @Override
-    public Role updatePermissionsById(List<Permission> permissions) {
-        return null;
+    public Role updatePermissionsById(long id, List<Permission> permissions){
+        if(!roleDao.exists(id)){
+            throw new ResultException();
+        }
+        try {
+            Role role = roleDao.findOne(id);
+            role.setPermissions(permissions);
+            role = roleDao.save(role);
+            return role;
+        } catch (Exception e){
+            throw new ResultException();
+        }
     }
 }

@@ -18,10 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import scala.App;
 
@@ -37,9 +34,11 @@ import java.util.stream.Collectors;
 public class AdminController {
     public static final String PATH = "admin";
 
-    public static final String SUBPATH_ROLE = "roles";
-    public static final String SUBPATH_USER = "users";
-    public static final String SUBPATH_PERMISSION = "permissions";
+    public static final String SUBPATH_ROLE = "/roles";
+    public static final String SUBPATH_USER = "/users";
+    public static final String SUBPATH_PERMISSION = "/permissions";
+
+    public static final String PATHVARIABLE_ID = "/{id}";
 
     @Autowired
     private ModelMapper modelMapper;
@@ -92,6 +91,18 @@ public class AdminController {
         return new ResponseEntity<List<RoleDto>>(roleDtos,headers,HttpStatus.OK);
     }
 
+    @PutMapping(value = SUBPATH_ROLE + PATHVARIABLE_ID + SUBPATH_PERMISSION)
+    public ResponseEntity<RoleDto> updatePermissionsById(@PathVariable long id,@RequestBody List<PermissionDto> permissionDtos,
+                                                      UriComponentsBuilder uriComponentsBuilder){
+        HttpHeaders headers = ApplicationUtil.getHttpHeaders(uriComponentsBuilder,PATH + SUBPATH_ROLE + PATHVARIABLE_ID + SUBPATH_PERMISSION);
+        List<Permission> permissions = permissionDtos.stream()
+                .map(permissionDto -> convertToEntity(permissionDto))
+                .collect(Collectors.toList());
+        Role role = roleService.updatePermissionsById(id,permissions);
+        RoleDto roleDto = convertToDto(role);
+        return new ResponseEntity<RoleDto>(roleDto,headers,HttpStatus.OK);
+    }
+
     @PostMapping(value = SUBPATH_USER)
     public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto,
                                            UriComponentsBuilder uriComponentsBuilder){
@@ -111,6 +122,18 @@ public class AdminController {
                 })
                 .collect(Collectors.toList());
         return new ResponseEntity<List<UserDto>>(userDtos,headers,HttpStatus.OK);
+    }
+
+    @PutMapping(value = SUBPATH_USER + PATHVARIABLE_ID + SUBPATH_ROLE)
+    public ResponseEntity<UserDto> updateRolesById(@PathVariable long id, @RequestBody List<RoleDto> roleDtos,
+                                                UriComponentsBuilder uriComponentsBuilder){
+        HttpHeaders headers = ApplicationUtil.getHttpHeaders(uriComponentsBuilder,SUBPATH_USER + PATHVARIABLE_ID + SUBPATH_ROLE);
+        List<Role> roles = roleDtos.stream()
+                .map(roleDto -> convertToEntity(roleDto))
+                .collect(Collectors.toList());
+        User user = userService.updateRolesById(id,roles);
+        UserDto userDto = convertToDto(user);
+        return new ResponseEntity<UserDto>(userDto,headers,HttpStatus.OK);
     }
 
     private Permission convertToEntity(PermissionDto permissionDto){

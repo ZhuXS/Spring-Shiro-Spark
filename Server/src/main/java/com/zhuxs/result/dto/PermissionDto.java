@@ -51,7 +51,11 @@ public class PermissionDto {
         this.resourceType = resourceType;
     }
 
-    public PermissionDto(long id) {
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
         this.id = id;
     }
 
