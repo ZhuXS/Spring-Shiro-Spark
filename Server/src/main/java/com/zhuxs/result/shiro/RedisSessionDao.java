@@ -10,6 +10,7 @@ import org.apache.shiro.util.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -21,13 +22,14 @@ import java.util.Set;
 /**
  * Created by shusesshou on 2017/9/24.
  */
+@Service
 public class RedisSessionDao extends AbstractSessionDAO{
 
     private static final Logger logger = LoggerFactory.getLogger(RedisSessionDao.class);
     // 保存到Redis中key的前缀 prefix+sessionId
     private String prefix = "";
     // 设置会话的过期时间
-    private int seconds = 30;
+    private int expireTime = 30;
 
     @Autowired
     private JedisPool jedisPool;
@@ -48,11 +50,11 @@ public class RedisSessionDao extends AbstractSessionDAO{
             if (session instanceof SimpleSession) {
                 byte[] key = SerializationUtils.serialize(prefix + sessionId);
                 byte[] value = SerializationUtils.serialize(((SimpleSession) session));
-                jedis.setex(key, seconds, value);
+                jedis.setex(key, expireTime, value);
             } else if (session instanceof Serializable) {
                 byte[] key = SerializationUtils.serialize(prefix + sessionId);
                 byte[] value = SerializationUtils.serialize((Serializable) session);
-                jedis.setex(key, seconds, value);
+                jedis.setex(key, expireTime, value);
             } else {
                 throw new RuntimeException("Session不能被序列化");
             }
@@ -79,7 +81,7 @@ public class RedisSessionDao extends AbstractSessionDAO{
             if(value != null){
                 session = SerializationUtils.deserialize(value);
                 logger.info("sessionId ttl : " + jedis.ttl(key));
-                jedis.expire(key, seconds);
+                jedis.expire(key, expireTime);
                 logger.info("sessionId {} name {} 被读取", sessionId, session.getClass().getName());
             }
         }catch (Exception e){
@@ -98,12 +100,12 @@ public class RedisSessionDao extends AbstractSessionDAO{
             if (session instanceof SimpleSession) {
                 byte[] key = SerializationUtils.serialize(prefix + session.getId());
                 byte[] value = SerializationUtils.serialize(((SimpleSession) session));
-                jedis.setex(key, seconds, value);
+                jedis.setex(key, expireTime, value);
                 logger.debug("sessionId {} name {} 被更新", session.getId(), session.getClass().getName());
             } else if (session instanceof Serializable) {
                 byte[] key = SerializationUtils.serialize(prefix + session.getId());
                 byte[] value = SerializationUtils.serialize((Serializable) session);
-                jedis.setex(key, seconds, value);
+                jedis.setex(key, expireTime, value);
                 logger.debug("sessionId {} name {} 被更新", session.getId(), session.getClass().getName());
             } else {
                 throw new RuntimeException("Session不能被序列化");
@@ -155,11 +157,11 @@ public class RedisSessionDao extends AbstractSessionDAO{
         this.prefix = prefix;
     }
 
-    public int getSeconds() {
-        return seconds;
+    public int getExpireTime() {
+        return expireTime;
     }
 
-    public void setSeconds(int seconds) {
-        this.seconds = seconds;
+    public void setExpireTime(int expireTime) {
+        this.expireTime = expireTime;
     }
 }

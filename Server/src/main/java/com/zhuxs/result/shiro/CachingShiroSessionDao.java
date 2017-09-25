@@ -12,6 +12,7 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.Transaction;
@@ -27,6 +28,7 @@ import java.util.Set;
  * 通过配置securityManager在属性cacheManager从缓存中查找Session是否存在，如果找不到再调用方法
  * Shiro内部相应的组件(DefaultSecurityManager)会自动检测相应的对象(Realm)是否实现了CacheManagerAware并注入相应的CacheManager
  */
+@Service
 public class CachingShiroSessionDao extends CachingSessionDAO{
 
     private static final Logger logger = LoggerFactory.getLogger(CachingShiroSessionDao.class);

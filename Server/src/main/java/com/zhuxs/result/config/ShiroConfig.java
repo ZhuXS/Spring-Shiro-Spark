@@ -1,5 +1,7 @@
 package com.zhuxs.result.config;
 
+import com.zhuxs.result.shiro.CachingShiroSessionDao;
+import com.zhuxs.result.shiro.RedisSessionDao;
 import com.zhuxs.result.shiro.ShiroRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.DefaultSecurityManager;
@@ -8,7 +10,9 @@ import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSource
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.LogoutFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +28,10 @@ import java.util.Map;
  */
 @Configuration
 public class ShiroConfig {
+    @Autowired
+    private RedisSessionDao redisSessionDao;
+    @Autowired
+    private CachingShiroSessionDao cachingShiroSessionDao;
     /**
      * LifecycleBeanPostProcessor,DestructionAwareBeanPostProcessor的子类
      * 负责org.apache.shiro.util.Initializable类型bean的生命周期，初始化和销毁
@@ -60,7 +68,16 @@ public class ShiroConfig {
      */
     //@Bean(name = "ehCacheManager")
     //@DependsOn("lifecycleBeanPostProcessor")
-
+    @Bean(name = "sessionManager")
+    public DefaultWebSessionManager sessionManager(){
+        DefaultWebSessionManager manager = new DefaultWebSessionManager();
+        //manager.setCacheManager(cacheManager);// 加入缓存管理器
+        manager.setSessionDAO(redisSessionDao);// 设置SessionDao
+        manager.setDeleteInvalidSessions(true);// 删除过期的session
+        manager.setGlobalSessionTimeout(redisSessionDao.getExpireTime());// 设置全局session超时时间
+        manager.setSessionValidationSchedulerEnabled(true);// 是否定时检查session
+        return manager;
+    }
     /**
      * SecurityManager,权限管理，组合了登录、登出、权限和session的处理
      *
@@ -68,7 +85,10 @@ public class ShiroConfig {
     @Bean(name = "securityManager")
     public DefaultWebSecurityManager securityManager(){
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        //设置Realm
         securityManager.setRealm(shiroRealm());
+        //设置session管理器
+        securityManager.setSessionManager(sessionManager());
         return securityManager;
     }
 
