@@ -10,7 +10,6 @@ import com.zhuxs.result.service.PermissionService;
 import com.zhuxs.result.service.RoleService;
 import com.zhuxs.result.service.UserService;
 import com.zhuxs.result.utils.ApplicationUtil;
-import org.apache.hadoop.yarn.webapp.WebApp;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -20,9 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-import scala.App;
 
-import javax.ws.rs.GET;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -7,7 +7,7 @@ import store from '../store'
 
 //创建axios实例
 const service = axios.create({
-    baseURL: "http://localhost:8081/job/0",
+    baseURL: "http://localhost:8081",
     timeout: 5000   //请求超时时间
 })
 
@@ -24,9 +24,11 @@ service.interceptors.request.use(config => {
 
 //response拦截器
 service.interceptors.response.use(response => {
-
+    //alert(response.data)
 },error => {
-    console.log(error)
+    if(error.response.data.errorCode.code == 40100){
+        alert("Please LogIn First")
+    }
     return Promise.reject(error)
 })
 

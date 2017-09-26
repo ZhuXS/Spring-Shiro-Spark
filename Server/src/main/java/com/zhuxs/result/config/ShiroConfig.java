@@ -111,12 +111,12 @@ public class ShiroConfig {
         LogoutFilter logoutFilter = new LogoutFilter();
         logoutFilter.setRedirectUrl("/login");
         shiroFilterFactoryBean.setFilters(filters);
-        shiroFilterFactoryBean.setLoginUrl("/login");
+        shiroFilterFactoryBean.setLoginUrl("/notAuthc");
 
         Map<String,String> filterChainDefinitionManager = new LinkedHashMap<String,String>();
         filterChainDefinitionManager.put("/logout","logout");
+        filterChainDefinitionManager.put("/admin/**","authc");
         filterChainDefinitionManager.put("/jobs/**","authc");
-        filterChainDefinitionManager.put("/**","authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionManager);
 
         shiroFilterFactoryBean.setSuccessUrl("/");

@@ -1,20 +1,28 @@
 package com.zhuxs.result.controller;
 
+import com.zhuxs.result.Exception.ResultException;
+import com.zhuxs.result.domain.enums.ErrorCode;
+import com.zhuxs.result.dto.ErrorDto;
 import com.zhuxs.result.dto.UserDto;
+import com.zhuxs.result.utils.ApplicationUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * Created by shusesshou on 2017/9/22.
  */
 @RestController
-public class LoginController {
+public class AuthController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     //@Autowired
@@ -37,4 +45,10 @@ public class LoginController {
         }
         return SecurityUtils.getSubject().getSession().getAttribute("username").toString();
     }
+
+    @GetMapping(value = "notAuthc")
+    public void notAuthc(UriComponentsBuilder uriComponentsBuilder){
+        throw new ResultException("Please Login", ErrorCode.NOTAUTHC);
+    }
+
 }

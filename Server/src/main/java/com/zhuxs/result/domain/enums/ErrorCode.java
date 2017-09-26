@@ -7,7 +7,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  */
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum  ErrorCode {
-    ERROR(40000,"error");
+    ERROR(40000,"error"),
+    NOTAUTHC(40100,"not authc");
 
     private final int code;
     private final String desc;
