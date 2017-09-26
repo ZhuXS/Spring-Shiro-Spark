@@ -9,7 +9,18 @@ export function login(username, password) {
         password
     }
     return fetch({
-        url: '/',
+        url: '/login',
+        method: 'post',
+        data
+    })
+}
+
+export function logout(sessionId) {
+    const data = {
+        sessionId
+    }
+    return fetch({
+        url:'/logout',
         method: 'post',
         data
     })

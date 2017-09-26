@@ -2,19 +2,32 @@
  * Created by shusesshou on 2017/9/21.
  */
 import Cookies from 'js-cookie'
-import { login } from '../../api/login'
+import { login,logout } from '../../api/login'
+import {getSessionId,setSessionId,removeSessionId} from '../../utils/auth'
 
 const user = {
     state: {
         username: '',
+        name: '',
+        sessionId: getSessionId(),
+        roles:[],
         status: ''
     },
     mutations: {
         SET_USERNAME: (state, username) => {
-            state.username = username;
+            state.username = username
+        },
+        SET_NAME: (state, name) => {
+            state.name = name
+        },
+        SET_SESSIONID: (state,sessionId) => {
+            state.sessionId = sessionId
+        },
+        SET_ROLES: (state,roles) => {
+            state.roles = roles
         },
         SET_STATUS: (state, status) => {
-            state.status = status;
+            state.status = status
         }
     },
     actions: {
@@ -24,11 +37,30 @@ const user = {
             return new Promise((resolve, reject) => {
                 login(username,userInfo.password).then(response => {
                     const data = response.data;
+                    commit('SET_NAME',data.name)
                     commit('SET_USERNAME',data.username)
+                    commit('SET_ROLES',data.roles)
+                    //commit('SET_')
                     commit('SET_STATUS',true)
                     resolve();
                 }).catch(error => {
                     reject(error)
+                })
+            })
+        },
+
+        //登出
+        LogOut({ commit,state }) {
+            return new Promise((resolve,reject) => {
+                logout(state.sessionId).then(() => {
+                    commit('SET_NAME',"")
+                    commit('SET_USERNAME',"")
+                    commit('SET_SESSIONID',"")
+                    commit('SET_ROLES',"")
+                    //commit('SET_')
+                    commit('SET_STATUS',false)
+                    removeSessionId()
+                    resolve()
                 })
             })
         }
