@@ -1,5 +1,5 @@
 <template>
-    <Form ref="userInfo" :model="userInfo" :rules="ruleInline" inline>
+    <Form ref="userInfo" :model="userInfo" :rules="ruleInline">
         <FormItem prop="user">
             <Input type="text" v-model="userInfo.username" placeholder="Username">
             <Icon type="ios-person-outline" slot="prepend"></Icon>
