@@ -29,7 +29,7 @@
                     ],
                     password: [
                         { required: true, message: '请填写密码', trigger: 'blur' },
-                        { type: 'string', min: 6, message: '密码长度不能小于6位', trigger: 'blur' }
+                        { type: 'string', min: 1, message: '密码长度不能小于6位', trigger: 'blur' }
                     ]
                 }
             }
