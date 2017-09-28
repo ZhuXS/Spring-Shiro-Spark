@@ -24,6 +24,10 @@ router.beforeEach((to,from,next) => {
             next({path: '/'})
         }else {
             //if(store.getters.)
+            if(store.getters.state){
+                //用户已经登录
+
+            }
         }
     }
 })
