@@ -12,6 +12,7 @@ import store from './store'
 //iView UI
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
+import './permission'
 
 //加载路由中间件
 Vue.use(iView)

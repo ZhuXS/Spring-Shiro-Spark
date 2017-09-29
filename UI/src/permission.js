@@ -19,7 +19,9 @@ function hasPermission(roles,permissions) {
 const whiteList = ['/login'] //不重定向白名单
 router.beforeEach((to,from,next) => {
     NProgress.start(); //开启Progress
-    if(getSessionId()) {
+    //alert(getSessionId())
+    alert(store.getters.status)
+    if(store.getters.status) {
         if(to.path === '/login'){
             next({path: '/'})
         }else {
@@ -30,7 +32,10 @@ router.beforeEach((to,from,next) => {
                 store.dispatch('GenerateRoutes',store.getters.roles).then(() => {
                     //动态添加可以访问的路由表
                     router.addRoutes(store.getters.addRouters)
-                    next({ ...to }) //hack方法，确保addRoutes已经完成
+                    next({
+                        to
+                    })
+                    //next({ ...to }) //hack方法，确保addRoutes已经完成
                 })
             } else {
 

@@ -39,7 +39,10 @@
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                         this.$store.dispatch('Login',this.userInfo).then(() => {
-                            this.$Message.success('提交成功!');
+                            this.$router.push({
+                                path: '/dashboard'
+                            })
+                            //this.$Message.success('提交成功!');
                         })
 
                     } else {
