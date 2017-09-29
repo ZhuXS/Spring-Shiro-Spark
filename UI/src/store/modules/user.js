@@ -37,7 +37,7 @@ const user = {
             return new Promise((resolve, reject) => {
                 login(username,userInfo.password).then(response => {
                     commit('SET_NAME',response.name)
-                    commit('SET_USEnpm RNAME',response.username)
+                    commit('SET_USERNAME',response.username)
                     commit('SET_ROLES',response.roles)
                     //commit('SET_')
                     commit('SET_STATUS',true)

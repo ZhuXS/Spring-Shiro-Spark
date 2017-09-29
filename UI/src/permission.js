@@ -26,8 +26,26 @@ router.beforeEach((to,from,next) => {
             //if(store.getters.)
             if(store.getters.state){
                 //用户已经登录
+                //生成可以访问的路由表
+                store.dispatch('GenerateRoutes',store.getters.roles).then(() => {
+                    //动态添加可以访问的路由表
+                    router.addRoutes(store.getters.addRouters)
+                    next({ ...to }) //hack方法，确保addRoutes已经完成
+                })
+            } else {
 
             }
         }
+    } else {
+        if(whiteList.indexOf(to.path) !== -1){  //在登录白名单，直接进入
+            next();
+        } else {
+            next('/login') //否则全部定向到登录页
+            NProgress.done()
+        }
     }
+})
+
+router.afterEach(() => {
+    NProgress.done() //结束Progress
 })

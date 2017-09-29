@@ -49,7 +49,8 @@ public class AuthController {
         }
         User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
         UserDto loginUserDto = convertToDto(user);
-        return new ResponseEntity<UserDto>(loginUserDto,headers, HttpStatus.OK);
+
+        return new ResponseEntity<>(loginUserDto,headers, HttpStatus.OK);
     }
 
     @GetMapping(value = "notAuthc")

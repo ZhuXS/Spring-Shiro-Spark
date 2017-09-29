@@ -25,6 +25,7 @@ service.interceptors.request.use(config => {
 //response拦截器
 service.interceptors.response.use(response => {
     //alert(response.data)
+    return response
 },error => {
     if(error.response.data.errorCode.code == 40100){
         alert("Please LogIn First")
