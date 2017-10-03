@@ -24,11 +24,6 @@ export const constantRouterMap = [
         path: "/login",
         component: _import('login/index'),
         name: "login"
-    },
-    {
-        path: "/admin",
-        component: _import('admin/index'),
-        name: "admin"
     }
 ]
 
@@ -41,7 +36,6 @@ export const asyncRouterMap = [
     {
         path: "/admin",
         component: _import('admin/index'),
-        redirect: "/login",
         name: "admin"
     }
 ]

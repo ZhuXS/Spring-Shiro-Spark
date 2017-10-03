@@ -7,7 +7,6 @@ import { getSessionId } from "./utils/auth"
 import NProgress from 'nprogress' //进度条
 import 'nprogress/nprogress.css'
 
-
 //permission judge
 function hasPermission(roles,permissions) {
     if (roles.indexOf('admin') > 0) return true //admin权限，直接通过
@@ -20,13 +19,13 @@ const whiteList = ['/login'] //不重定向白名单
 router.beforeEach((to,from,next) => {
     NProgress.start(); //开启Progress
     //alert(getSessionId())
-    alert(store.getters.status)
+    //alert(store.getters.status)
+    alert("sessionId: " + getSessionId())
     if(store.getters.status) {
         if(to.path === '/login'){
             next({path: '/'})
         }else {
-            //if(store.getters.)
-            if(store.getters.state){
+            if(store.getters.status){
                 //用户已经登录
                 //生成可以访问的路由表
                 store.dispatch('GenerateRoutes',store.getters.roles).then(() => {
@@ -35,10 +34,9 @@ router.beforeEach((to,from,next) => {
                     next({
                         to
                     })
-                    //next({ ...to }) //hack方法，确保addRoutes已经完成
                 })
             } else {
-
+                next({path: '/'})
             }
         }
     } else {
@@ -46,7 +44,6 @@ router.beforeEach((to,from,next) => {
             next();
         } else {
             next('/login') //否则全部定向到登录页
-            NProgress.done()
         }
     }
 })
