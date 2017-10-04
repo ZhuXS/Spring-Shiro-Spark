@@ -15,6 +15,14 @@ export function login(username, password) {
     })
 }
 
+//test the user login or not and get the userInfo
+export function getUserInfo() {
+    return fetch({
+        url:'/login/userInfo',
+        method:'get'
+    })
+}
+
 export function logout(sessionId) {
     const data = {
         sessionId

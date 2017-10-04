@@ -12,6 +12,7 @@ const service = axios.create({
     withCredentials : true
 })
 
+//是否保留跨域请求凭证
 service.defaults.withCredentials = true
 
 //request拦截器

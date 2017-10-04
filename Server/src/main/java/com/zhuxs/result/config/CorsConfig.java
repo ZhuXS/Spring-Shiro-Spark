@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
  * Created by shusesshou on 2017/9/11.
@@ -16,6 +17,7 @@ public class CorsConfig {
         corsConfiguration.addAllowedOrigin("*"); //allow all cross origin
         corsConfiguration.addAllowedHeader("*"); //allow all header
         corsConfiguration.addAllowedMethod("*"); //allow all http method
+        corsConfiguration.setAllowCredentials(true); //允许保留跨域请求凭证
         return corsConfiguration;
     }
 
@@ -25,4 +27,5 @@ public class CorsConfig {
         source.registerCorsConfiguration("/**",buildConfig());
         return new CorsFilter(source);
     }
+
 }
