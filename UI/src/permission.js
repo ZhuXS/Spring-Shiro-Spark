@@ -18,32 +18,34 @@ function hasPermission(roles,permissions) {
 const whiteList = ['/login'] //不重定向白名单
 router.beforeEach((to,from,next) => {
     NProgress.start(); //开启Progress
-    //alert(getSessionId())
-    //alert(store.getters.status)
-    alert("sessionId: " + getSessionId())
     if(store.getters.status) {
         if(to.path === '/login'){
             next({path: '/'})
         }else {
-            if(store.getters.status){
-                //用户已经登录
-                //生成可以访问的路由表
-                store.dispatch('GenerateRoutes',store.getters.roles).then(() => {
-                    //动态添加可以访问的路由表
-                    router.addRoutes(store.getters.addRouters)
-                    next({
-                        to
-                    })
-                })
-            } else {
-                next({path: '/'})
-            }
+            next({
+                to
+            })
         }
     } else {
         if(whiteList.indexOf(to.path) !== -1){  //在登录白名单，直接进入
             next();
         } else {
-            next('/login') //否则全部定向到登录页
+            store.dispatch('GetUserInfo').then(res => {
+                //alert("test")
+                //拉取user_info,并测试用户是否登录
+                const roles = res.roles
+                store.dispatch('GenerateRoutes',{ roles }).then(() => {
+                    router.addRoutes(store.getters.addRoutes) //动态添加可访问路由表
+                    next({
+                        to
+                    })
+                })
+            }).catch(e => {
+                if(e.response.data.errorCode === 30000){
+                    next('/login') //否则全部定向到登录页
+                }
+                next('/login') //否则全部定向到登录页
+            })
         }
     }
 })

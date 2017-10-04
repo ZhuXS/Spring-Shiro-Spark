@@ -1,4 +1,4 @@
-package com.zhuxs.result.Exception;
+package com.zhuxs.result.exception;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zhuxs.result.domain.enums.ErrorCode;

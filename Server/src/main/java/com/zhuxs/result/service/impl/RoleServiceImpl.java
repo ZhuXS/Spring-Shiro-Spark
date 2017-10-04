@@ -1,7 +1,6 @@
 package com.zhuxs.result.service.impl;
 
-import com.sun.org.apache.regexp.internal.RE;
-import com.zhuxs.result.Exception.ResultException;
+import com.zhuxs.result.exception.ResultException;
 import com.zhuxs.result.domain.RoleDao;
 import com.zhuxs.result.domain.entity.Permission;
 import com.zhuxs.result.domain.entity.Role;

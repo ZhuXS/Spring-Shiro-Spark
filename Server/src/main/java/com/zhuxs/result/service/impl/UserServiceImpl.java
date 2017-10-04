@@ -1,10 +1,9 @@
 package com.zhuxs.result.service.impl;
 
-import com.zhuxs.result.Exception.ResultException;
+import com.zhuxs.result.exception.ResultException;
 import com.zhuxs.result.domain.UserDao;
 import com.zhuxs.result.domain.entity.Role;
 import com.zhuxs.result.domain.entity.User;
-import com.zhuxs.result.dto.UserDto;
 import com.zhuxs.result.service.UserService;
 import org.springframework.stereotype.Service;
 

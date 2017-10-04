@@ -1,9 +1,8 @@
 package com.zhuxs.result.controller;
 
-import com.zhuxs.result.Exception.ResultException;
+import com.zhuxs.result.exception.ResultException;
 import com.zhuxs.result.domain.entity.User;
 import com.zhuxs.result.domain.enums.ErrorCode;
-import com.zhuxs.result.dto.ErrorDto;
 import com.zhuxs.result.dto.UserDto;
 import com.zhuxs.result.utils.ApplicationUtil;
 import org.apache.shiro.SecurityUtils;
@@ -28,14 +27,15 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RestController
 public class AuthController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    public static final String PATH = "/login";
+    public static final String SUBPATH_LOGIN = "/login";
+    public static final String SUBPATH_USERINFO = "/userInfo";
     @Autowired
     private ModelMapper modelMapper;
 
-    @PostMapping(value = PATH)
+    @PostMapping(value = SUBPATH_LOGIN)
     public ResponseEntity<UserDto> login(@RequestBody UserDto userDto,
                                          UriComponentsBuilder uriComponentsBuilder){
-        HttpHeaders headers = ApplicationUtil.getHttpHeaders(uriComponentsBuilder,PATH);
+        HttpHeaders headers = ApplicationUtil.getHttpHeaders(uriComponentsBuilder,SUBPATH_LOGIN);
         logger.info("================userInfo================username: " + userDto.getUsername() + ",pw: " + userDto.getPassword());
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(userDto.getUsername(),userDto.getPassword());
@@ -53,11 +53,28 @@ public class AuthController {
         return new ResponseEntity<>(loginUserDto,headers, HttpStatus.OK);
     }
 
+    @GetMapping(value = SUBPATH_USERINFO)
+    public ResponseEntity<UserDto> getUserInfo(UriComponentsBuilder uriComponentsBuilder){
+        HttpHeaders headers = ApplicationUtil.getHttpHeaders(uriComponentsBuilder,SUBPATH_USERINFO);
+        User user = (User)SecurityUtils.getSubject().getSession().getAttribute("user");
+        UserDto userDto = convertToDto(user);
+
+        return new ResponseEntity<UserDto>(userDto,headers,HttpStatus.OK);
+    }
+
+
+
     @GetMapping(value = "notAuthc")
     public void notAuthc(UriComponentsBuilder uriComponentsBuilder){
         throw new ResultException("Please Login", ErrorCode.NOTAUTHC);
     }
     private UserDto convertToDto(User user){
-        return modelMapper.map(user,UserDto.class);
+        //return modelMapper.map(user,UserDto.class);
+        UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
+        userDto.setName(user.getName());
+        userDto.setUsername(user.getUsername());
+        //userDto.setRoles();
+        return userDto;
     }
 }

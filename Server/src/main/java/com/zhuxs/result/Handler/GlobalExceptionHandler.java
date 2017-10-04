@@ -1,9 +1,7 @@
 package com.zhuxs.result.Handler;
 
-import com.zhuxs.result.Exception.ResultException;
-import com.zhuxs.result.domain.enums.ErrorCode;
+import com.zhuxs.result.exception.ResultException;
 import com.zhuxs.result.dto.ErrorDto;
-import com.zhuxs.result.utils.ApplicationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -13,9 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
@@ -34,7 +29,7 @@ public class GlobalExceptionHandler {
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(new URI(request.getRequestURI()));
         headers.setContentType(MediaType.APPLICATION_JSON);
-        logger.error("-----Exception Handler---Host: {} invokes url: {} ERROR: {} Cause:",request.getRemoteHost(),request.getRequestURL(), ex.getMessage(),ex.getCause());
+        logger.error("-----exception Handler---Host: {} invokes url: {} ERROR: {} Cause:",request.getRemoteHost(),request.getRequestURL(), ex.getMessage(),ex.getCause());
         return handleExceptionInternal(ex,headers,HttpStatus.INTERNAL_SERVER_ERROR,request);
     }
 

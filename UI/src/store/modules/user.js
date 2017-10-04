@@ -47,12 +47,15 @@ const user = {
         //获取用户信息
         GetUserInfo({ commit } ){
             return new Promise((resolve,reject) => {
-                getUserInfo().then(() => {
+                getUserInfo().then(response => {
                     commit('SET_NAME',response.name)
                     commit('SET_USERNAME',response.username)
                     commit('SET_ROLES',response.roles)
                     //commit('SET_')
                     commit('SET_STATUS',true)
+                    resolve(response)
+                }).catch(error => {
+                    reject(error)
                 })
             })
         },

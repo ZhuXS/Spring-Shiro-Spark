@@ -1,6 +1,6 @@
 package com.zhuxs.result.service.impl;
 
-import com.zhuxs.result.Exception.ResultException;
+import com.zhuxs.result.exception.ResultException;
 import com.zhuxs.result.bo.Count;
 import com.zhuxs.result.bo.Word;
 import com.zhuxs.result.bo.comparator.CountComparator;

@@ -1,7 +1,7 @@
 package com.zhuxs.result.utils;
 
 import com.google.common.collect.Lists;
-import com.zhuxs.result.Exception.ResultException;
+import com.zhuxs.result.exception.ResultException;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.shiro.codec.Base64;
 
