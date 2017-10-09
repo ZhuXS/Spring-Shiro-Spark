@@ -42,7 +42,7 @@ public class User implements Serializable{
     @NotNull
     private UserStatus status = UserStatus.CREATE;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "userId",referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "roleId",referencedColumnName = "id")})

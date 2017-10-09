@@ -1,12 +1,13 @@
 package com.zhuxs.result.dto;
 
 import javax.validation.constraints.Max;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by shusesshou on 2017/9/22.
  */
-public class UserDto {
+public class UserDto implements Serializable{
     private long id;
     private String name;
 

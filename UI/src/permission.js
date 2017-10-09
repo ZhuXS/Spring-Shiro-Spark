@@ -31,11 +31,10 @@ router.beforeEach((to,from,next) => {
             next();
         } else {
             store.dispatch('GetUserInfo').then(res => {
-                //alert("test")
                 //拉取user_info,并测试用户是否登录
-                const roles = res.roles
-                store.dispatch('GenerateRoutes',{ roles }).then(() => {
-                    router.addRoutes(store.getters.addRoutes) //动态添加可访问路由表
+                const roles = res.data.roles
+                store.dispatch('GenerateRoutes',roles).then(() => {
+                    router.addRoutes(store.getters.addRouters) //动态添加可访问路由表
                     next({
                         to
                     })

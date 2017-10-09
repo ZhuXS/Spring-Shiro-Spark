@@ -5,6 +5,8 @@ import com.zhuxs.result.domain.UserDao;
 import com.zhuxs.result.domain.entity.Permission;
 import com.zhuxs.result.domain.entity.Role;
 import com.zhuxs.result.domain.entity.User;
+import com.zhuxs.result.dto.RoleDto;
+import com.zhuxs.result.dto.UserDto;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -64,10 +66,11 @@ public class ShiroRealm extends AuthorizingRealm{
         String userName = token.getUsername();
 
         User user = userDao.findUserByUsername(userName);
+        UserDto userDto = convertToDto(user);
         if(user != null){
             //登陆成功
             Session session = SecurityUtils.getSubject().getSession();
-            session.setAttribute("user",user);
+            session.setAttribute("user",userDto);
             session.setAttribute("id",user.getId());
             session.setAttribute("username",user.getUsername());
             session.setAttribute("name",user.getName());
@@ -79,5 +82,27 @@ public class ShiroRealm extends AuthorizingRealm{
         } else {
             throw new UnknownAccountException();
         }
+    }
+
+    private UserDto convertToDto(User user){
+        //return modelMapper.map(user,UserDto.class);
+        UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
+        userDto.setName(user.getName());
+        userDto.setUsername(user.getUsername());
+        List<Role> roles = user.getRoles();
+        userDto.setRoles(roles.stream()
+                .map(role -> {
+                    return convertToDto(role);
+                })
+                .collect(Collectors.toList()));
+
+        return userDto;
+    }
+
+    private RoleDto convertToDto(Role role){
+        RoleDto roleDto = new RoleDto();
+        roleDto.setName(role.getName());
+        return roleDto;
     }
 }

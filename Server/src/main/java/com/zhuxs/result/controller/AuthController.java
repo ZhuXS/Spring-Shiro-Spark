@@ -1,5 +1,7 @@
 package com.zhuxs.result.controller;
 
+import com.zhuxs.result.domain.entity.Role;
+import com.zhuxs.result.dto.RoleDto;
 import com.zhuxs.result.exception.ResultException;
 import com.zhuxs.result.domain.entity.User;
 import com.zhuxs.result.domain.enums.ErrorCode;
@@ -20,6 +22,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by shusesshou on 2017/9/22.
@@ -47,8 +53,7 @@ public class AuthController {
             logger.error("======登录失败======");
             throw new ResultException();
         }
-        User user = (User) SecurityUtils.getSubject().getSession().getAttribute("user");
-        UserDto loginUserDto = convertToDto(user);
+        UserDto loginUserDto = (UserDto) SecurityUtils.getSubject().getSession().getAttribute("user");
 
         return new ResponseEntity<>(loginUserDto,headers, HttpStatus.OK);
     }
@@ -57,24 +62,35 @@ public class AuthController {
     public ResponseEntity<UserDto> getUserInfo(UriComponentsBuilder uriComponentsBuilder){
         HttpHeaders headers = ApplicationUtil.getHttpHeaders(uriComponentsBuilder,SUBPATH_USERINFO);
         User user = (User)SecurityUtils.getSubject().getSession().getAttribute("user");
-        UserDto userDto = convertToDto(user);
+        UserDto userDto = (UserDto) SecurityUtils.getSubject().getSession().getAttribute("user");
 
         return new ResponseEntity<UserDto>(userDto,headers,HttpStatus.OK);
     }
-
-
 
     @GetMapping(value = "notAuthc")
     public void notAuthc(UriComponentsBuilder uriComponentsBuilder){
         throw new ResultException("Please Login", ErrorCode.NOTAUTHC);
     }
+
     private UserDto convertToDto(User user){
         //return modelMapper.map(user,UserDto.class);
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
         userDto.setName(user.getName());
         userDto.setUsername(user.getUsername());
-        //userDto.setRoles();
+        List<Role> roles = user.getRoles();
+        userDto.setRoles(roles.stream()
+                    .map(role -> {
+                        return convertToDto(role);
+                    })
+                    .collect(Collectors.toList()));
+
         return userDto;
+    }
+
+    private RoleDto convertToDto(Role role){
+        RoleDto roleDto = new RoleDto();
+        roleDto.setName(role.getName());
+        return roleDto;
     }
 }
