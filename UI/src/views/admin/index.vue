@@ -1,5 +1,15 @@
 <template>
-    <user-info-panel></user-info-panel>
+    <Tabs>
+        <TabPane label="user" icon="person">
+            <user-info-panel></user-info-panel>
+        </TabPane>
+        <TabPane label="role" icon="bowtie">
+            <role-info-panel></role-info-panel>
+        </TabPane>
+        <TabPane label="permission" icon="ribbon-b">
+            <permission-info-panel></permission-info-panel>
+        </TabPane>
+    </Tabs>
 </template>
 
 <style>
@@ -8,9 +18,13 @@
 
 <script>
     import userInfoPanel from './userInfoPanel.vue'
+    import roleInfoPanel from './permissionInfoPanel.vue'
+    import permissionInfoPanel from './permissionInfoPanel.vue'
     export default{
         components:{
-            userInfoPanel
+            userInfoPanel,
+            roleInfoPanel,
+            permissionInfoPanel,
         },
         data () {
             return {msg: 'hello'}

@@ -1,5 +1,6 @@
 package com.zhuxs.result.domain.entity;
 
+import com.zhuxs.result.domain.enums.ActionType;
 import com.zhuxs.result.domain.enums.ResourceType;
 
 import javax.persistence.*;
@@ -27,6 +28,13 @@ public class Permission {
     @NotNull
     private String resource;
 
+    /**
+     * 操作类型
+     */
+    @Column(name = "action")
+    @NotNull
+    private ActionType action;
+
     @Column(name = "type")
     @NotNull
     private ResourceType type;
@@ -42,6 +50,14 @@ public class Permission {
         this.name = name;
         this.resource = resource;
         this.type = type;
+    }
+
+    public Permission(String name, String resource, ActionType action, ResourceType type, Role role) {
+        this.name = name;
+        this.resource = resource;
+        this.action = action;
+        this.type = type;
+        this.role = role;
     }
 
     public Long getId() {
@@ -84,6 +100,14 @@ public class Permission {
         this.resource = resource;
     }
 
+    public ActionType getAction() {
+        return action;
+    }
+
+    public void setAction(ActionType action) {
+        this.action = action;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -94,6 +118,7 @@ public class Permission {
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (resource != null ? !resource.equals(that.resource) : that.resource != null) return false;
+        if (action != that.action) return false;
         if (type != that.type) return false;
         return role != null ? role.equals(that.role) : that.role == null;
     }
@@ -103,6 +128,7 @@ public class Permission {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (resource != null ? resource.hashCode() : 0);
+        result = 31 * result + (action != null ? action.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
         result = 31 * result + (role != null ? role.hashCode() : 0);
         return result;

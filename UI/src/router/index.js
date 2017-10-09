@@ -26,8 +26,12 @@ export const constantRouterMap = [
         name: "login"
     },
     {
+        path: "/admin",
+        component: _import('admin/index'),
+        name: "admin"
+    },
+    {
         path: "*",
-        //component: _import('index/index'),
         redirect: "/",
         name: "index"
     }

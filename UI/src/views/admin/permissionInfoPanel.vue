@@ -1,6 +1,8 @@
 <template>
     <div id="table">
         <Table border :loading="loading" :columns="userColumns" :data="userData"></Table>
+        <br/>
+        <Button @click="newPermission">New Permission</Button>
     </div>
 </template>
 <style>
@@ -12,6 +14,7 @@
 </style>
 <script>
     import fetch from '../../utils/fetch'
+    import newPermissionPanel from './newPermissionPanel.vue'
     export default {
         data () {
             return {
@@ -22,16 +25,16 @@
                         key: 'id'
                     },
                     {
-                        title: 'username',
-                        key: 'username'
-                    },
-                    {
-                        title: 'password',
-                        key: 'password'
-                    },
-                    {
                         title: 'name',
                         key: 'name'
+                    },
+                    {
+                        title: 'resource',
+                        key: 'resource'
+                    },
+                    {
+                        title: 'type',
+                        key: 'type'
                     },
                     {
                         title: '操作',
@@ -70,24 +73,32 @@
                     }
 
                 ],
-                userData: [
+                permissionData: [
                 ]
             }
         },
         created: function () {
             return new Promise((resolve,reject) => {
                 fetch({
-                    url: '/admin/users',
+                    url: '/admin/permissions',
                     method: 'get',
                 }).then(response => {
                     const data = response.data
-                    this.userData = data
+                    this.permissionData = data
                     this.loading = false
                 })
             })
         },
         methods: {
-
+            newPermission() {
+                this.$Modal.confirm({
+                    render: (h) => {
+                        return h(
+                            newPermissionPanel
+                        )
+                    }
+                })
+            }
         }
     }
 </script>

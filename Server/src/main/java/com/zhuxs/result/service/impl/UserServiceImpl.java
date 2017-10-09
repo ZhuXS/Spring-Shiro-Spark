@@ -5,6 +5,7 @@ import com.zhuxs.result.domain.UserDao;
 import com.zhuxs.result.domain.entity.Role;
 import com.zhuxs.result.domain.entity.User;
 import com.zhuxs.result.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  */
 @Service
 public class UserServiceImpl implements UserService {
+    @Autowired
     private UserDao userDao;
     @Override
     public User addUser(User user) {

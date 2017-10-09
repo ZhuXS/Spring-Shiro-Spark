@@ -1,5 +1,6 @@
 package com.zhuxs.result.dto;
 
+import com.zhuxs.result.domain.enums.ActionType;
 import com.zhuxs.result.domain.enums.ResourceType;
 
 /**
@@ -10,6 +11,7 @@ public class PermissionDto {
     private String name;
     private String resource;
     private ResourceType resourceType;
+    private ActionType action;
 
     public PermissionDto() {
     }
@@ -25,6 +27,14 @@ public class PermissionDto {
         this.name = name;
         this.resource = resource;
         this.resourceType = resourceType;
+    }
+
+    public PermissionDto(long id, String name, String resource, ResourceType resourceType, ActionType action) {
+        this.id = id;
+        this.name = name;
+        this.resource = resource;
+        this.resourceType = resourceType;
+        this.action = action;
     }
 
     public String getName() {
@@ -59,6 +69,14 @@ public class PermissionDto {
         this.id = id;
     }
 
+    public ActionType getAction() {
+        return action;
+    }
+
+    public void setAction(ActionType action) {
+        this.action = action;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -69,7 +87,8 @@ public class PermissionDto {
         if (id != that.id) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (resource != null ? !resource.equals(that.resource) : that.resource != null) return false;
-        return resourceType == that.resourceType;
+        if (resourceType != that.resourceType) return false;
+        return action == that.action;
     }
 
     @Override
@@ -78,6 +97,7 @@ public class PermissionDto {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (resource != null ? resource.hashCode() : 0);
         result = 31 * result + (resourceType != null ? resourceType.hashCode() : 0);
+        result = 31 * result + (action != null ? action.hashCode() : 0);
         return result;
     }
 }
