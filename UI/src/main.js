@@ -8,6 +8,9 @@ import App from './app.vue'
 import router from './router/index'
 import store from './store'
 
+//agile for index
+import VueAgile from 'vue-agile'
+Vue.use(VueAgile)
 
 //iView UI
 import iView from 'iview';

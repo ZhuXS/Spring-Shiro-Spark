@@ -61,7 +61,6 @@ public class AuthController {
     @GetMapping(value = SUBPATH_USERINFO)
     public ResponseEntity<UserDto> getUserInfo(UriComponentsBuilder uriComponentsBuilder){
         HttpHeaders headers = ApplicationUtil.getHttpHeaders(uriComponentsBuilder,SUBPATH_USERINFO);
-        User user = (User)SecurityUtils.getSubject().getSession().getAttribute("user");
         UserDto userDto = (UserDto) SecurityUtils.getSubject().getSession().getAttribute("user");
 
         return new ResponseEntity<UserDto>(userDto,headers,HttpStatus.OK);

@@ -15,16 +15,14 @@ function hasPermission(roles,permissions) {
 }
 
 //register global progress
-const whiteList = ['/login'] //不重定向白名单
+const whiteList = ['/login','/'] //不重定向白名单
 router.beforeEach((to,from,next) => {
     NProgress.start(); //开启Progress
     if(store.getters.status) {
         if(to.path === '/login'){
             next({path: '/'})
-        }else {
-            next({
-                to
-            })
+        } else {
+            next()
         }
     } else {
         if(whiteList.indexOf(to.path) !== -1){  //在登录白名单，直接进入
