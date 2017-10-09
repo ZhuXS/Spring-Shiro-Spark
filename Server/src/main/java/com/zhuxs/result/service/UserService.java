@@ -13,4 +13,5 @@ public interface UserService {
     User addUser(User user);
     List<User> listUsers();
     User updateRolesById(long id, List<Role> roles);
+    void delUserById(long id);
 }

@@ -10,4 +10,5 @@ import java.util.List;
 public interface PermissionService {
     Permission addPermission(Permission permission);
     List<Permission> listPermissions();
+    void delPermissionById(long id);
 }

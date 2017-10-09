@@ -5,8 +5,7 @@ package com.zhuxs.result.domain.enums;
  */
 public enum ResourceType {
 
-    MENU(0,"menu"),
-    BUTTON(1,"button");
+    WORDCOUNT(0,"WordCount");
 
     private int type;
     private String desc;

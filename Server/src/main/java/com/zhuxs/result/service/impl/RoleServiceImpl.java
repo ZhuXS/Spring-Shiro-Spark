@@ -43,4 +43,9 @@ public class RoleServiceImpl implements RoleService{
             throw new ResultException();
         }
     }
+
+    @Override
+    public void delRoleById(long id) {
+        roleDao.delete(id);
+    }
 }

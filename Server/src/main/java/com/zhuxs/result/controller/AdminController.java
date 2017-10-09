@@ -50,6 +50,10 @@ public class AdminController {
     public ResponseEntity<Permission> addPermission(@RequestBody PermissionDto permissionDto,
                                         UriComponentsBuilder uriComponentsBuilder){
         HttpHeaders headers = ApplicationUtil.getHttpHeaders(uriComponentsBuilder,PATH + SUBPATH_PERMISSION);
+        permissionDto.setResource("");
+        String name = permissionDto.getResourceType() + ":" + permissionDto.getAction();
+        permissionDto.setName(name);
+
         Permission permission = convertToEntity(permissionDto);
         permissionService.addPermission(permission);
         return new ResponseEntity<Permission>(headers, HttpStatus.OK);
@@ -65,6 +69,14 @@ public class AdminController {
                 })
                 .collect(Collectors.toList());
         return new ResponseEntity<List<PermissionDto>>(permissionDtos,headers,HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = SUBPATH_PERMISSION + PATHVARIABLE_ID)
+    public ResponseEntity<Long> deletePermissionById(UriComponentsBuilder uriComponentsBuilder,
+                                                              @PathVariable long id){
+        HttpHeaders headers = ApplicationUtil.getHttpHeaders(uriComponentsBuilder,PATH + SUBPATH_PERMISSION + "/" + id);
+        permissionService.delPermissionById(id);
+        return new ResponseEntity<Long>(id,headers,HttpStatus.OK);
     }
 
     @PostMapping(value = SUBPATH_ROLE)
@@ -100,6 +112,15 @@ public class AdminController {
         return new ResponseEntity<RoleDto>(roleDto,headers,HttpStatus.OK);
     }
 
+    @DeleteMapping(value = SUBPATH_ROLE + PATHVARIABLE_ID)
+    public ResponseEntity<Long> deleteRoleById(UriComponentsBuilder uriComponentsBuilder,
+                                                     @PathVariable long id){
+        HttpHeaders headers = ApplicationUtil.getHttpHeaders(uriComponentsBuilder,PATH + SUBPATH_ROLE + "/" + id);
+        roleService.delRoleById(id);
+        return new ResponseEntity<Long>(id,headers,HttpStatus.OK);
+    }
+
+
     @PostMapping(value = SUBPATH_USER)
     public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto,
                                            UriComponentsBuilder uriComponentsBuilder){
@@ -132,6 +153,15 @@ public class AdminController {
         UserDto userDto = convertToDto(user);
         return new ResponseEntity<UserDto>(userDto,headers,HttpStatus.OK);
     }
+
+    @DeleteMapping(value = SUBPATH_USER + PATHVARIABLE_ID)
+    public ResponseEntity<Long> deleteUserById(UriComponentsBuilder uriComponentsBuilder,
+                                                     @PathVariable long id){
+        HttpHeaders headers = ApplicationUtil.getHttpHeaders(uriComponentsBuilder,PATH + SUBPATH_USER + "/" + id);
+        userService.delUserById(id);
+        return new ResponseEntity<Long>(id,headers,HttpStatus.OK);
+    }
+
 
     private Permission convertToEntity(PermissionDto permissionDto){
         return modelMapper.map(permissionDto,Permission.class);

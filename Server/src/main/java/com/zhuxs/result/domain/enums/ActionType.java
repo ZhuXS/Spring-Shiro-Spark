@@ -4,10 +4,11 @@ package com.zhuxs.result.domain.enums;
  * Created by shusesshou on 2017/10/9.
  */
 public enum ActionType {
-    POST(0,"create"),
-    GET(1,"read"),
-    PUT(2,"update"),
-    DELETE(3,"delete")
+    ALL(0,"all"),
+    CREATE(1,"create"),
+    READ(2,"read"),
+    UPDATE(3,"update"),
+    DELETE(4,"delete")
     ;
     private int type;
     private String desc;
