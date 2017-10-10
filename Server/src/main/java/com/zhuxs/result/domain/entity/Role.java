@@ -1,5 +1,8 @@
 package com.zhuxs.result.domain.entity;
 
+import org.hibernate.annotations.CollectionId;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -30,7 +33,13 @@ public class Role {
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private List<User> users = new ArrayList<>();
 
-    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
+    @JoinTable(name = "role_permission",
+            joinColumns = {@JoinColumn(name = "roleId",referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "permissionId",referencedColumnName = "id")})
+    @CollectionId(columns = @Column(name = "id"),
+            type = @Type(type = "long"),
+            generator = "identity")
     private List<Permission> permissions = new ArrayList<>();
 
     public Role() {

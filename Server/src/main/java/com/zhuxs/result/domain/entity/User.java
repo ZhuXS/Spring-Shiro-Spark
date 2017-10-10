@@ -51,6 +51,15 @@ public class User implements Serializable{
             generator = "identity")
     private List<Role> roles = new ArrayList<>();
 
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinTable(name = "user_permission",
+            joinColumns = {@JoinColumn(name = "userId",referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "permissionId",referencedColumnName = "id")})
+    @CollectionId(columns = @Column(name = "id"),
+            type = @Type(type = "long"),
+            generator = "identity")
+    private List<Permission> permissions = new ArrayList<>();
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user",fetch = FetchType.LAZY)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Job> jobs = new ArrayList<>();
@@ -127,6 +136,14 @@ public class User implements Serializable{
         this.name = name;
         this.password = password;
         this.salt = salt;
+    }
+
+    public List<Permission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<Permission> permissions) {
+        this.permissions = permissions;
     }
 
     @Override

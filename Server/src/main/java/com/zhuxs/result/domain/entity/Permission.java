@@ -5,6 +5,8 @@ import com.zhuxs.result.domain.enums.ResourceType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by shusesshou on 2017/9/19.
@@ -39,9 +41,11 @@ public class Permission {
     @NotNull
     private ResourceType type;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @ManyToMany(mappedBy = "permissions",fetch = FetchType.LAZY)
+    private List<Role> roles = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "permissions",fetch = FetchType.LAZY)
+    private List<User> users = new ArrayList<>();
 
     public Permission() {
     }
@@ -50,14 +54,6 @@ public class Permission {
         this.name = name;
         this.resource = resource;
         this.type = type;
-    }
-
-    public Permission(String name, String resource, ActionType action, ResourceType type, Role role) {
-        this.name = name;
-        this.resource = resource;
-        this.action = action;
-        this.type = type;
-        this.role = role;
     }
 
     public Long getId() {
@@ -84,14 +80,6 @@ public class Permission {
         this.type = type;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
     public String getResource() {
         return resource;
     }
@@ -108,6 +96,22 @@ public class Permission {
         this.action = action;
     }
 
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -119,8 +123,7 @@ public class Permission {
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (resource != null ? !resource.equals(that.resource) : that.resource != null) return false;
         if (action != that.action) return false;
-        if (type != that.type) return false;
-        return role != null ? role.equals(that.role) : that.role == null;
+        return type == that.type;
     }
 
     @Override
@@ -130,7 +133,6 @@ public class Permission {
         result = 31 * result + (resource != null ? resource.hashCode() : 0);
         result = 31 * result + (action != null ? action.hashCode() : 0);
         result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + (role != null ? role.hashCode() : 0);
         return result;
     }
 }

@@ -55,13 +55,13 @@
                         key: 'resource'
                     },
                     {
-                        title: 'type',
-                        key: 'type'
+                        title: 'resourceType',
+                        key: 'resourceType'
                     },
                     {
                         title: '操作',
                         key: 'action',
-                        width: 150,
+                        width: 200,
                         align: 'center',
                         render: (h, params) => {
                             return h('div', [
@@ -78,7 +78,7 @@
                                             this.show(params.index)
                                         }
                                     }
-                                }, '查看'),
+                                }, 'Manage'),
                                 h('Button', {
                                     props: {
                                         type: 'ghost',
@@ -89,7 +89,7 @@
                                             this.removePermission(params.index)
                                         }
                                     }
-                                }, '删除')
+                                }, 'Delete')
                             ]);
                         }
                     }
