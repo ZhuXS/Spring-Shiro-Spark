@@ -38,7 +38,7 @@ router.beforeEach((to,from,next) => {
                     })
                 })
             }).catch(e => {
-                if(e.response.data.errorCode === 30000){
+                if(e.response.data.errorCode === 40010){
                     next('/login') //否则全部定向到登录页
                 }
                 next('/login') //否则全部定向到登录页

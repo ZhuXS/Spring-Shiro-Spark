@@ -1,9 +1,11 @@
 package com.zhuxs.result.dto;
 
+import java.io.Serializable;
+
 /**
  * Created by shusesshou on 2017/9/25.
  */
-public class RoleDto {
+public class RoleDto implements Serializable{
     private long id;
     private String name;
     private String desc;

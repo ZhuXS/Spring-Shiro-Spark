@@ -23,6 +23,28 @@
                 </FormItem>
             </Form>
         </Modal>
+        <Modal
+                v-model="userModal"
+                title="User Management"
+                @on-cancel="cancel">
+            <Tabs value="Role">
+                <TabPane label="Role" name="Role">
+                    <Transfer
+                            :data="rolesData"
+                            :target-keys="rolesTarget"
+                            :render-format="renderRoles"
+                            :titles='["All","User"]'
+                            @on-change="changeRoles"
+                            ></Transfer>
+                    <br/>
+                    <Button @click="updateUserRoles">Assign Roles</Button>
+                </TabPane>
+                <TabPane label="Permission" name="Permission">标签二的内容</TabPane>
+            </Tabs>
+            <div slot="footer">
+                <Button type="primary" size="large" long @click="cancelManagement">Cancel</Button>
+            </div>
+        </Modal>
     </div>
 </template>
 <style>
@@ -39,6 +61,7 @@
             return {
                 loading: true,
                 modal: false,
+                userModal: false,
                 userColumns: [
                     {
                         title: 'Id',
@@ -104,7 +127,28 @@
                     username: '',
                     password: '',
                     salt: ''
-                }
+                },
+                userRoles:[
+                ],
+                rolesTarget:[
+
+                ],
+                allRoles:[
+                ],
+                rolesData:[
+
+                ],
+                userPermissions:[
+                ],
+                permissionsTarget:[
+
+                ],
+                allPermissions:[
+                ],
+                permissionsData:[
+
+                ],
+                currentUserId:''
             }
         },
         created: function () {
@@ -156,9 +200,131 @@
                     })
                 })
             },
+            show(index) {
+                this.currentUserId = this.userData[index].id
+                Promise.all([
+                    this.getRoles(),
+                    this.getPermissions(),
+                    this.getRolesByUserId(index),
+                    this.getPermissionsByUserId(index)
+                ]).then(() => {
+                    this.getRolesData()
+                    this.getPermissionData()
+                    this.getRolesTarget()
+                    this.getPermissionsTarget()
+                    this.userModal = true
+                })
+            },
+            cancelManagement() {
+                this.userModal = false
+            },
             cancel() {
 
             },
+            getRolesByUserId(index){
+                var id = this.userData[index].id
+                return new Promise((resolve,reject) => {
+                    fetch({
+                        url:'/admin/roles?userId=' + id,
+                        method:'get'
+                    }).then(response => {
+                        this.userRoles = response.data
+                        resolve()
+                    })
+                })
+            },
+            getRoles(){
+                return new Promise((resolve,reject) => {
+                    fetch({
+                        url: "/admin/roles",
+                        method:'get'
+                    }).then(response => {
+                        this.allRoles = response.data
+                        resolve()
+                    })
+                })
+            },
+            getPermissionsByUserId(index){
+                var id = this.userData[index].id
+                return new Promise((resolve,reject) => {
+                    fetch({
+                        url:'/admin/permissions?userId=' + id,
+                        method:'get'
+                    }).then(response => {
+                        this.userPermissions = response.data
+                        resolve()
+                    })
+                })
+            },
+            getPermissions(){
+                return new Promise((resolve,reject) => {
+                    fetch({
+                        url: "/admin/permissions",
+                        method:'get'
+                    }).then(response => {
+                        this.allPermissions = response.data
+                        resolve()
+                    })
+                })
+            },
+            updateUserRoles(){
+                return new Promise((resolve,reject) => {
+                    fetch({
+                        url: "/admin/users/" + this.currentUserId +"/roles",
+                        method: "put",
+                        data:this.allRoles.filter(item => {
+                            for(let i = 0; i < this.rolesTarget.length;i++){
+                                if(item.id.toString() === this.rolesTarget[i]){
+                                    return true
+                                }
+                            }
+                        })
+                    }).then(() => {
+                        this.$Message.success("Assign 成功")
+                        this.userModal = false
+                    })
+                })
+            },
+            renderRoles(item){
+                return item.label
+            },
+            getRolesData(){
+                this.rolesData = []
+                for(let i = 0;i < this.allRoles.length;i++){
+                    this.rolesData.push({
+                        key: this.allRoles[i].id.toString(),
+                        label:this.allRoles[i].name + "-" + this.allRoles[i].desc,
+                        disabled:false
+                    })
+                }
+            },
+            getPermissionData(){
+                this.permissionsData = []
+                for(let i = 0;i < this.allPermissions.length;i++){
+                    this.permissionsData.push({
+                        key: this.allPermissions[i].id.toString(),
+                        label:this.allPermissions[i].name,
+                        disabled:false
+                    })
+                }
+            },
+            getRolesTarget(){
+                this.rolesTarget = this.userRoles.map(item => {
+                    return item.id.toString()
+                })
+                //alert(this.rolesTarget.length)
+            },
+            getPermissionsTarget(){
+                this.permissionsTarget = this.userPermissions.map(item => {
+                    return item.id.toString()
+                })
+            },
+            changeRoles(roleKeys){
+                this.rolesTarget = roleKeys
+            },
+            changePermissions(permissionKeys){
+                this.permissionsTarget = permissionKeys
+            }
         }
     }
 </script>

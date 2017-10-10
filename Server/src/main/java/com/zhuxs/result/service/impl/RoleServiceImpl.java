@@ -1,5 +1,7 @@
 package com.zhuxs.result.service.impl;
 
+import com.zhuxs.result.domain.UserDao;
+import com.zhuxs.result.domain.entity.User;
 import com.zhuxs.result.exception.ResultException;
 import com.zhuxs.result.domain.RoleDao;
 import com.zhuxs.result.domain.entity.Permission;
@@ -17,6 +19,8 @@ import java.util.List;
 public class RoleServiceImpl implements RoleService{
     @Autowired
     private RoleDao roleDao;
+    @Autowired
+    private UserDao userDao;
     @Override
     public Role addRole(Role role) {
         role = roleDao.save(role);
@@ -27,6 +31,20 @@ public class RoleServiceImpl implements RoleService{
     public List<Role> listRoles() {
         List<Role> roles = roleDao.findAll();
         return roles;
+    }
+
+    @Override
+    public List<Role> getRolesByUserId(long userId) {
+        if (!userDao.exists(userId)){
+            throw new ResultException();
+        }
+        try{
+             User user = userDao.findOne(userId);
+             List<Role> roles = user.getRoles();
+             return roles;
+        }catch (Exception e){
+            throw new ResultException();
+        }
     }
 
     @Override

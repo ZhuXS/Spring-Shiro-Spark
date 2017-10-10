@@ -26,7 +26,7 @@ Vue.config.errorHandler = function (err,vm,info) {
     //Server Error
     if(err.response){
         //not Auth
-        if(err.response.data.errorCode === 30000){
+        if(err.response.data.errorCode === 40010){
             Vue.$router.push({
                 path:'/login'
             })

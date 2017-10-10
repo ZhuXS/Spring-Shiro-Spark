@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService {
             user = userDao.save(user);
             return user;
         }catch (Exception e){
+            //throw e;
             throw new ResultException();
         }
     }

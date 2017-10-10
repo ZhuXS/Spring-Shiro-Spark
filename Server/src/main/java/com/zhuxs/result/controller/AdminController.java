@@ -10,6 +10,7 @@ import com.zhuxs.result.service.PermissionService;
 import com.zhuxs.result.service.RoleService;
 import com.zhuxs.result.service.UserService;
 import com.zhuxs.result.utils.ApplicationUtil;
+import org.hibernate.annotations.Parameter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -36,6 +37,8 @@ public class AdminController {
     public static final String SUBPATH_PERMISSION = "/permissions";
 
     public static final String PATHVARIABLE_ID = "/{id}";
+
+    public static final String USER_ID = "userId";
 
     @Autowired
     private ModelMapper modelMapper;
@@ -71,6 +74,22 @@ public class AdminController {
         return new ResponseEntity<List<PermissionDto>>(permissionDtos,headers,HttpStatus.OK);
     }
 
+    @GetMapping(value = SUBPATH_PERMISSION,
+            params = USER_ID)
+    public ResponseEntity<List<PermissionDto>> getRolesByPermissionId(UriComponentsBuilder uriComponentsBuilder,
+                                                          @RequestParam long userId){
+        HttpHeaders headers = ApplicationUtil.getHttpHeaders(uriComponentsBuilder,PATH + SUBPATH_PERMISSION);
+        List<Permission> permissions = permissionService.getPermissionsByUserId(userId);
+        List<PermissionDto> permissionDtos = permissions.stream()
+                .map(permission -> {
+                    return convertToDto(permission);
+                })
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<List<PermissionDto>>(permissionDtos,headers,HttpStatus.OK);
+    }
+
+
     @DeleteMapping(value = SUBPATH_PERMISSION + PATHVARIABLE_ID)
     public ResponseEntity<Long> deletePermissionById(UriComponentsBuilder uriComponentsBuilder,
                                                               @PathVariable long id){
@@ -92,6 +111,20 @@ public class AdminController {
     public ResponseEntity<List<RoleDto>> listRoles(UriComponentsBuilder uriComponentsBuilder){
         HttpHeaders headers = ApplicationUtil.getHttpHeaders(uriComponentsBuilder,PATH + SUBPATH_ROLE);
         List<Role> roles = roleService.listRoles();
+        List<RoleDto> roleDtos = roles.stream()
+                .map(role -> {
+                    return convertToDto(role);
+                })
+                .collect(Collectors.toList());
+        return new ResponseEntity<List<RoleDto>>(roleDtos,headers,HttpStatus.OK);
+    }
+
+    @GetMapping(value = SUBPATH_ROLE,
+            params = USER_ID)
+    public ResponseEntity<List<RoleDto>> getRolesByUserId(UriComponentsBuilder uriComponentsBuilder,
+                                                          @RequestParam long userId){
+        HttpHeaders headers = ApplicationUtil.getHttpHeaders(uriComponentsBuilder,PATH + SUBPATH_ROLE);
+        List<Role> roles = roleService.getRolesByUserId(userId);
         List<RoleDto> roleDtos = roles.stream()
                 .map(role -> {
                     return convertToDto(role);
@@ -143,9 +176,9 @@ public class AdminController {
     }
 
     @PutMapping(value = SUBPATH_USER + PATHVARIABLE_ID + SUBPATH_ROLE)
-    public ResponseEntity<UserDto> updateRolesById(@PathVariable long id, @RequestBody List<RoleDto> roleDtos,
+    public ResponseEntity<UserDto> updateRolesById(@PathVariable Long id, @RequestBody List<RoleDto> roleDtos,
                                                 UriComponentsBuilder uriComponentsBuilder){
-        HttpHeaders headers = ApplicationUtil.getHttpHeaders(uriComponentsBuilder,SUBPATH_USER + PATHVARIABLE_ID + SUBPATH_ROLE);
+        HttpHeaders headers = ApplicationUtil.getHttpHeaders(uriComponentsBuilder,SUBPATH_USER + "/" + id.toString() + SUBPATH_ROLE);
         List<Role> roles = roleDtos.stream()
                 .map(roleDto -> convertToEntity(roleDto))
                 .collect(Collectors.toList());

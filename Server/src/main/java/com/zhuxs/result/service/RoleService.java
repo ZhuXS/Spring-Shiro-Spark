@@ -13,6 +13,8 @@ public interface RoleService {
 
     List<Role> listRoles();
 
+    List<Role> getRolesByUserId(long userId);
+
     Role updatePermissionsById(long id,List<Permission> permissions);
 
     void delRoleById(long id);

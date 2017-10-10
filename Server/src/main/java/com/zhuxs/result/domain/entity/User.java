@@ -19,6 +19,7 @@ import java.util.List;
 @Table(name = "user")
 public class User implements Serializable{
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -46,18 +47,12 @@ public class User implements Serializable{
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "userId",referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "roleId",referencedColumnName = "id")})
-    @CollectionId(columns = @Column(name = "id"),
-            type = @Type(type = "long"),
-            generator = "identity")
     private List<Role> roles = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(name = "user_permission",
             joinColumns = {@JoinColumn(name = "userId",referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "permissionId",referencedColumnName = "id")})
-    @CollectionId(columns = @Column(name = "id"),
-            type = @Type(type = "long"),
-            generator = "identity")
     private List<Permission> permissions = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user",fetch = FetchType.LAZY)
