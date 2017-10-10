@@ -187,6 +187,19 @@ public class AdminController {
         return new ResponseEntity<UserDto>(userDto,headers,HttpStatus.OK);
     }
 
+    @PutMapping(value = SUBPATH_USER + PATHVARIABLE_ID + SUBPATH_PERMISSION)
+    public ResponseEntity<UserDto> updatePermissionsById(@PathVariable Long id, @RequestBody List<PermissionDto> permissionDtos,
+                                                   UriComponentsBuilder uriComponentsBuilder){
+        HttpHeaders headers = ApplicationUtil.getHttpHeaders(uriComponentsBuilder,SUBPATH_USER + "/" + id.toString() + SUBPATH_PERMISSION);
+        List<Permission> permissions = permissionDtos.stream()
+                .map(permissionDto -> convertToEntity(permissionDto))
+                .collect(Collectors.toList());
+        User user = userService.updatePermissionsById(id,permissions);
+        UserDto userDto = convertToDto(user);
+        return new ResponseEntity<UserDto>(userDto,headers,HttpStatus.OK);
+    }
+
+
     @DeleteMapping(value = SUBPATH_USER + PATHVARIABLE_ID)
     public ResponseEntity<Long> deleteUserById(UriComponentsBuilder uriComponentsBuilder,
                                                      @PathVariable long id){

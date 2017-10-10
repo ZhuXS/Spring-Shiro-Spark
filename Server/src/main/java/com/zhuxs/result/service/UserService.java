@@ -1,5 +1,6 @@
 package com.zhuxs.result.service;
 
+import com.zhuxs.result.domain.entity.Permission;
 import com.zhuxs.result.domain.entity.Role;
 import com.zhuxs.result.domain.entity.User;
 import com.zhuxs.result.dto.UserDto;
@@ -13,5 +14,6 @@ public interface UserService {
     User addUser(User user);
     List<User> listUsers();
     User updateRolesById(long id, List<Role> roles);
+    User updatePermissionsById(long id, List<Permission> permissions);
     void delUserById(long id);
 }

@@ -1,5 +1,6 @@
 package com.zhuxs.result.service.impl;
 
+import com.zhuxs.result.domain.entity.Permission;
 import com.zhuxs.result.exception.ResultException;
 import com.zhuxs.result.domain.UserDao;
 import com.zhuxs.result.domain.entity.Role;
@@ -41,6 +42,21 @@ public class UserServiceImpl implements UserService {
             return user;
         }catch (Exception e){
             //throw e;
+            throw new ResultException();
+        }
+    }
+
+    @Override
+    public User updatePermissionsById(long id, List<Permission> permissions) {
+        if(!userDao.exists(id)){
+            throw new ResultException();
+        }
+        try {
+            User user = userDao.findOne(id);
+            user.setPermissions(permissions);
+            user = userDao.save(user);
+            return user;
+        }catch (Exception e){
             throw new ResultException();
         }
     }

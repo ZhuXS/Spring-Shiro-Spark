@@ -39,7 +39,17 @@
                     <br/>
                     <Button @click="updateUserRoles">Assign Roles</Button>
                 </TabPane>
-                <TabPane label="Permission" name="Permission">标签二的内容</TabPane>
+                <TabPane label="Permission" name="Permission">
+                    <Transfer
+                            :data="permissionsData"
+                            :target-keys="permissionsTarget"
+                            :render-format="renderPermissions"
+                            :titles='["All","User"]'
+                            @on-change="changePermissions"
+                    ></Transfer>
+                    <br/>
+                    <Button @click="updateUserPermissions">Assign Permissions</Button>
+                </TabPane>
             </Tabs>
             <div slot="footer">
                 <Button type="primary" size="large" long @click="cancelManagement">Cancel</Button>
@@ -285,7 +295,28 @@
                     })
                 })
             },
+            updateUserPermissions(){
+                return new Promise((resolve,reject) => {
+                    fetch({
+                        url: "/admin/users/" + this.currentUserId + "/permissions",
+                        method: "put",
+                        data:this.allPermissions.filter(item => {
+                            for(let i = 0;i < this.permissionsTarget.length;i++){
+                                if(item.id.toString() === this.permissionsTarget[i]){
+                                    return true
+                                }
+                            }
+                        })
+                    }).then(() => {
+                        this.$Message.success("Assign 成功")
+                        this.userModal = false
+                    })
+                })
+            },
             renderRoles(item){
+                return item.label
+            },
+            renderPermissions(item){
                 return item.label
             },
             getRolesData(){
