@@ -13,6 +13,7 @@ public class UserDto implements Serializable{
 
     private String username;
     private String password;
+    private String salt;
     private List<RoleDto> roles;
 
     public UserDto() {
@@ -41,6 +42,23 @@ public class UserDto implements Serializable{
         this.name = name;
         this.username = username;
         this.password = password;
+        this.roles = roles;
+    }
+
+    public UserDto(long id, String name, String username, String password, String salt) {
+        this.id = id;
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.salt = salt;
+    }
+
+    public UserDto(long id, String name, String username, String password, String salt, List<RoleDto> roles) {
+        this.id = id;
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.salt = salt;
         this.roles = roles;
     }
 
@@ -84,6 +102,14 @@ public class UserDto implements Serializable{
         this.roles = roles;
     }
 
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -94,7 +120,8 @@ public class UserDto implements Serializable{
         if (id != userDto.id) return false;
         if (name != null ? !name.equals(userDto.name) : userDto.name != null) return false;
         if (username != null ? !username.equals(userDto.username) : userDto.username != null) return false;
-        return password != null ? password.equals(userDto.password) : userDto.password == null;
+        if (password != null ? !password.equals(userDto.password) : userDto.password != null) return false;
+        return salt != null ? salt.equals(userDto.salt) : userDto.salt == null;
     }
 
     @Override
@@ -103,6 +130,7 @@ public class UserDto implements Serializable{
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (username != null ? username.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (salt != null ? salt.hashCode() : 0);
         return result;
     }
 }
