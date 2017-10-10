@@ -21,6 +21,19 @@ import './permission'
 Vue.use(iView)
 Vue.use(Vuex)
 
+//Global Error Handler
+Vue.config.errorHandler = function (err,vm,info) {
+    //Server Error
+    if(err.response){
+        //not Auth
+        if(err.response.data.errorCode === 30000){
+            Vue.$router.push({
+                path:'/login'
+            })
+        }
+    }
+}
+
 new Vue({
     el: '#app',
     router,
