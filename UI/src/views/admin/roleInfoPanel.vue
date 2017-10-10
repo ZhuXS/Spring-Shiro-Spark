@@ -1,28 +1,21 @@
 <template>
     <div id="table">
-        <Table border :loading="loading" :columns="permissionColumns" :data="permissionData"></Table>
+        <Table border :loading="loading" :columns="roleColumns" :data="roleData"></Table>
         <br/>
-        <Button @click="showModal">New Permission</Button>
+        <Button @click="showModal">New Role</Button>
         <Modal
                 v-model="modal"
                 title="New Permission"
-                @on-ok="addPermission"
+                @on-ok="addRole"
                 @on-cancel="cancel">
             <Form :model="formItem" :label-width="80">
-                <FormItem label="type">
-                    <Select v-model="formItem.resource" placeholder="resource type">
-                        <Option value="0">WordCount</Option>
-                    </Select>
+                <FormItem label="Name">
+                    <Input v-model="formItem.name" placeholder="Role Name"></Input>
                 </FormItem>
-                <FormItem label="action">
-                    <Select v-model="formItem.action" placeholder="action type">
-                        <Option value="0">ALL</Option>
-                        <Option value="1">CREATE</Option>
-                        <Option value="2">UPDATE</Option>
-                        <Option value="3">READ</Option>
-                        <Option value="4">DELETE</Option>
-                    </Select>
+                <FormItem label="Description">
+                    <Input v-model="formItem.description" placeholder="Role Description"></Input>
                 </FormItem>
+
             </Form>
         </Modal>
     </div>
@@ -41,7 +34,7 @@
             return {
                 loading: true,
                 modal: false,
-                permissionColumns: [
+                roleColumns: [
                     {
                         title: 'id',
                         key: 'id'
@@ -82,7 +75,7 @@
                                     },
                                     on: {
                                         click: () => {
-                                            this.removePermission(params.index)
+                                            this.removeRole(params.index)
                                         }
                                     }
                                 }, 'Delete')
@@ -91,58 +84,58 @@
                     }
 
                 ],
-                permissionData: [
+                roleData: [
                 ],
                 formItem: {
-                    resource: '',
-                    action: ''
+                    name: '',
+                    description: ''
                 }
             }
         },
         created: function () {
-            this.getPermissions()
+            this.getRoles()
         },
         methods: {
             showModal() {
                this.modal = true
             },
-            getPermissions() {
+            getRoles() {
                 return new Promise((resolve,reject) => {
                     fetch({
-                        url: '/admin/permissions',
+                        url: '/admin/roles',
                         method: 'get',
                     }).then(response => {
                         const data = response.data
-                        this.permissionData = data
+                        this.roleData = data
                         this.loading = false
                     })
                 })
             },
-            addPermission() {
+            addRole() {
                 var data = {
-                    resourceType: this.formItem.resource,
-                    action:this.formItem.action
+                    name: this.formItem.name,
+                    desc: this.formItem.description
                 }
                 return new Promise((resolve,reject) => {
                     fetch({
-                        url: '/admin/permissions',
+                        url: '/admin/roles',
                         method: 'post',
                         data
                     }).then(response => {
                         this.$Message.success('创建成功');
-                        this.getPermissions()
+                        this.getRoles()
                     })
                 })
             },
-            removePermission(index) {
-                var id = this.permissionData[index].id
+            removeRole(index) {
+                var id = this.roleData[index].id
                 return new Promise((resolve,reject) => {
                     fetch({
-                        url: '/admin/permissions/' + id,
+                        url: '/admin/roles/' + id,
                         method: 'delete',
                     }).then(response => {
                         this.$Message.success('删除成功');
-                        this.getPermissions()
+                        this.getRoles()
                     })
                 })
             },

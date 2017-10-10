@@ -18,7 +18,7 @@
 
 <script>
     import userInfoPanel from './userInfoPanel.vue'
-    import roleInfoPanel from './permissionInfoPanel.vue'
+    import roleInfoPanel from './roleInfoPanel.vue'
     import permissionInfoPanel from './permissionInfoPanel.vue'
     export default{
         components:{
