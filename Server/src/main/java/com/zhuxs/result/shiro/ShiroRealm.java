@@ -5,6 +5,7 @@ import com.zhuxs.result.domain.UserDao;
 import com.zhuxs.result.domain.entity.Permission;
 import com.zhuxs.result.domain.entity.Role;
 import com.zhuxs.result.domain.entity.User;
+import com.zhuxs.result.dto.PermissionDto;
 import com.zhuxs.result.dto.RoleDto;
 import com.zhuxs.result.dto.UserDto;
 import org.apache.shiro.SecurityUtils;
@@ -14,10 +15,12 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,27 +37,27 @@ public class ShiroRealm extends AuthorizingRealm{
     private PermissionDao permissionDao;
     @Autowired
     private ShiroSessionDao shiroSessionDao;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
+    @org.springframework.transaction.annotation.Transactional
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         //获取当前用户
-        User user = userDao.findUserByUsername((String)principalCollection.getPrimaryPrincipal());
+        //UserDto user = convertToDto(userDao.findUserByUsername((String)principalCollection.getPrimaryPrincipal()));
+        User currentUser = userDao.findUserByUsername((String)principalCollection.getPrimaryPrincipal());
+        UserDto user = convertToDto(currentUser);
 
         //把principals放session中，key=userId value=principals
         SecurityUtils.getSubject().getSession().setAttribute(String.valueOf(user.getId()),SecurityUtils.getSubject().getPrincipals());
 
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         //赋予角色
-        for(Role role:user.getRoles()){
+        for(RoleDto role:user.getRoles()){
             info.addRole(role.getName());
         }
         //赋予权限
-        List<Permission> permissions = user.getRoles()
-                .stream()
-                .flatMap(role -> role.getPermissions().stream())
-                .distinct()
-                .collect(Collectors.toList());
-        for(Permission permission:permissions){
+        for(PermissionDto permission:user.getPermissions()){
             info.addStringPermission(permission.getName());
         }
         return info;
@@ -91,9 +94,15 @@ public class ShiroRealm extends AuthorizingRealm{
         userDto.setName(user.getName());
         userDto.setUsername(user.getUsername());
         List<Role> roles = user.getRoles();
+        List<Permission> permissions = user.getPermissions();
         userDto.setRoles(roles.stream()
                 .map(role -> {
                     return convertToDto(role);
+                })
+                .collect(Collectors.toList()));
+        userDto.setPermissions(permissions.stream()
+                .map(permission -> {
+                    return convertToDto(permission);
                 })
                 .collect(Collectors.toList()));
 
@@ -104,5 +113,9 @@ public class ShiroRealm extends AuthorizingRealm{
         RoleDto roleDto = new RoleDto();
         roleDto.setName(role.getName());
         return roleDto;
+    }
+
+    private PermissionDto convertToDto(Permission permission){
+        return modelMapper.map(permission,PermissionDto.class);
     }
 }

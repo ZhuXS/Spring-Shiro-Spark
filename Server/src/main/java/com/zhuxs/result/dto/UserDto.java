@@ -15,6 +15,7 @@ public class UserDto implements Serializable{
     private String password;
     private String salt;
     private List<RoleDto> roles;
+    private List<PermissionDto> permissions;
 
     public UserDto() {
     }
@@ -108,6 +109,14 @@ public class UserDto implements Serializable{
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public List<PermissionDto> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<PermissionDto> permissions) {
+        this.permissions = permissions;
     }
 
     @Override

@@ -3,10 +3,12 @@ package com.zhuxs.result.dto;
 import com.zhuxs.result.domain.enums.ActionType;
 import com.zhuxs.result.domain.enums.ResourceType;
 
+import java.io.Serializable;
+
 /**
  * Created by shusesshou on 2017/9/25.
  */
-public class PermissionDto {
+public class PermissionDto implements Serializable{
     private long id;
     private String name;
     private String resource;

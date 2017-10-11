@@ -24,6 +24,7 @@ Vue.use(Vuex)
 //Global Error Handler
 Vue.config.errorHandler = function (err,vm,info) {
     //Server Error
+    alert(err)
     if(err.response){
         //not Auth
         if(err.response.data.errorCode === 40010){
