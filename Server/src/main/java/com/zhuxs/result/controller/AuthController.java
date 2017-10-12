@@ -71,6 +71,11 @@ public class AuthController {
         throw new ResultException("Please Login", ErrorCode.NOTAUTHC);
     }
 
+    @GetMapping(value = "notAuthz")
+    public void notAuthz(UriComponentsBuilder uriComponentsBuilder){
+        throw new ResultException("Not Authz", ErrorCode.NOTAUTHZ);
+    }
+
     private UserDto convertToDto(User user){
         //return modelMapper.map(user,UserDto.class);
         UserDto userDto = new UserDto();

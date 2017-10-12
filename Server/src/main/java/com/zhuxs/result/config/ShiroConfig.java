@@ -116,12 +116,12 @@ public class ShiroConfig {
         Map<String,String> filterChainDefinitionManager = new LinkedHashMap<String,String>();
         filterChainDefinitionManager.put("/logout","logout");
         filterChainDefinitionManager.put("/userInfo","authc");
-        filterChainDefinitionManager.put("/admin/**","roles[admin]");
+        filterChainDefinitionManager.put("/admin/**","roles[Admin]");
         filterChainDefinitionManager.put("/jobs/**","authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionManager);
 
         shiroFilterFactoryBean.setSuccessUrl("/");
-        shiroFilterFactoryBean.setUnauthorizedUrl("/403");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/notAuthz");
         return shiroFilterFactoryBean;
     }
 

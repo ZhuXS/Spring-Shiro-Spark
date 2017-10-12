@@ -41,12 +41,12 @@ public class ShiroRealm extends AuthorizingRealm{
     private ModelMapper modelMapper;
 
     @Override
-    @org.springframework.transaction.annotation.Transactional
+    //@org.springframework.transaction.annotation.Transactional
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         //获取当前用户
         //UserDto user = convertToDto(userDao.findUserByUsername((String)principalCollection.getPrimaryPrincipal()));
-        User currentUser = userDao.findUserByUsername((String)principalCollection.getPrimaryPrincipal());
-        UserDto user = convertToDto(currentUser);
+        //User currentUser = userDao.findUserByUsername((String)principalCollection.getPrimaryPrincipal());
+        UserDto user = (UserDto) SecurityUtils.getSubject().getSession().getAttribute("user");
 
         //把principals放session中，key=userId value=principals
         SecurityUtils.getSubject().getSession().setAttribute(String.valueOf(user.getId()),SecurityUtils.getSubject().getPrincipals());

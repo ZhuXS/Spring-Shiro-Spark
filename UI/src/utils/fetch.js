@@ -31,7 +31,14 @@ service.interceptors.response.use(response => {
     //alert(response.data)
     return response
 },error => {
-    return Promise.reject(error)
+    //alert(error.response.data.errorCode.code)
+    if(error.response.data.errorCode.code === 40100){
+        window.location .href = "login"
+    } else if(error.response.data.errorCode.code === 40101){
+        window.location.href = "dashboard"
+    }else {
+        reject(error)
+    }
 })
 
 export default service
