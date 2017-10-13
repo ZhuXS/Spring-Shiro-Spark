@@ -34,7 +34,7 @@
 </style>
 
 <script>
-    import axios from 'axios'
+    import fetch from '../../utils/fetch'
     export default{
         data () {
             return {
@@ -68,9 +68,10 @@
                     return
                 }
                 var postData = {"words" : this.words}
-                axios.post("http://localhost:8081/jobs/0",postData).then(response => {
-                    this.data = response.data
-                    this.loading = false
+                return new fetch({
+                    path:'jobs/0',
+                    method:"post",
+                    postData
                 }).catch(e => {
                     this.$Notice.error({
                         title: 'ERROR',

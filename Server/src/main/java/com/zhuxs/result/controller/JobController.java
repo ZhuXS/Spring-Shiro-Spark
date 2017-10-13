@@ -6,6 +6,7 @@ import com.zhuxs.result.domain.JobDao;
 import com.zhuxs.result.dto.TextDto;
 import com.zhuxs.result.service.WordCountService;
 import com.zhuxs.result.utils.ApplicationUtil;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -35,6 +37,7 @@ public class JobController {
     @Autowired
     private JobDao jobDao;
 
+    @RequiresPermissions("WORDCOUNT:CREATE")
     @PostMapping(value = SUBPATH_WORDCOUNT)
     public ResponseEntity<List<Count>> getCounts(@RequestBody TextDto words,
                                                  UriComponentsBuilder uriComponentsBuilder) throws ResultException{

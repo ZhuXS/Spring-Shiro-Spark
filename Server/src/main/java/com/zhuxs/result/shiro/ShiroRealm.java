@@ -58,6 +58,7 @@ public class ShiroRealm extends AuthorizingRealm{
         }
         //赋予权限
         for(PermissionDto permission:user.getPermissions()){
+            //System.out.println(permission.getName());
             info.addStringPermission(permission.getName());
         }
         return info;

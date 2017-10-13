@@ -28,17 +28,22 @@ export const constantRouterMap = [
     {
         path: "/admin",
         component: _import('admin/index'),
+        //redirect: '/dashboard',
+        meta:{
+            role: ['Admin']
+        },
         name: "admin"
     },
     {
         path: "*",
-        redirect: "/",
-        name: "index"
+        component: _import('index/index'),
+        name: "Not Found"
     }
 ]
 
 export default new Router({
     mode: 'history',
+    scrollBehavior: () => ({y:0}),
     routes: constantRouterMap
 })
 
@@ -46,6 +51,10 @@ export const asyncRouterMap = [
     {
         path: "/admin",
         component: _import('admin/index'),
+        //redirect: '/dashboard',
+        meta:{
+            role: ['Admin']
+        },
         name: "admin"
     }
 ]

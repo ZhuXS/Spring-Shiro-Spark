@@ -68,12 +68,17 @@ public class AuthController {
 
     @GetMapping(value = "notAuthc")
     public void notAuthc(UriComponentsBuilder uriComponentsBuilder){
-        throw new ResultException("Please Login", ErrorCode.NOTAUTHC);
+        throw new ResultException("Not Authc", ErrorCode.NOTAUTHC);
     }
 
     @GetMapping(value = "notAuthz")
     public void notAuthz(UriComponentsBuilder uriComponentsBuilder){
-        throw new ResultException("Not Authz", ErrorCode.NOTAUTHZ);
+        UserDto loginUserDto = (UserDto) SecurityUtils.getSubject().getSession().getAttribute("user");
+        throw new ResultException(
+                "UserName: " + loginUserDto.getName()
+                        + "\nPermissions: " + loginUserDto.getPermissions().toString()
+                        + "\nRoles: " + loginUserDto.getRoles().toString()
+                , ErrorCode.NOTAUTHC);
     }
 
     private UserDto convertToDto(User user){

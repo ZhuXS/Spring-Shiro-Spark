@@ -36,7 +36,7 @@ const user = {
             const username = userInfo.username.trim()
             return new Promise((resolve, reject) => {
                 login(username,userInfo.password).then(response => {
-                    commit('SET_STATUS',true)
+                    //commit('SET_STATUS',true)
                     resolve();
                 }).catch(error => {
                     reject(error)
@@ -48,11 +48,12 @@ const user = {
         GetUserInfo({ commit } ){
             return new Promise((resolve,reject) => {
                 getUserInfo().then(response => {
-                    commit('SET_NAME',response.name)
-                    commit('SET_USERNAME',response.username)
-                    commit('SET_ROLES',response.roles)
+                    commit('SET_NAME',response.data.name)
+                    commit('SET_USERNAME',response.data.username)
+                    commit('SET_ROLES',response.data.roles)
                     //commit('SET_')
                     commit('SET_STATUS',true)
+                    //alert(state.name)
                     resolve(response)
                 }).catch(error => {
                     reject(error)
