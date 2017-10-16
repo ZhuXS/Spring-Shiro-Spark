@@ -1,5 +1,5 @@
 # RESult
-YOU GIVE ME A WORD I GIVE YOU ALL
+RESult是Spring-Boot Hibernate Spark Spark-SQL  Shiro iView VueJs... ...的集成尝试 
 ## 简介
 这是一个本人为了尝试一些想法、架构、技术、工具等的项目。
   - **大数据**
