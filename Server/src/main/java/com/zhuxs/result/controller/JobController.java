@@ -6,7 +6,9 @@ import com.zhuxs.result.domain.JobDao;
 import com.zhuxs.result.dto.TextDto;
 import com.zhuxs.result.service.WordCountService;
 import com.zhuxs.result.utils.ApplicationUtil;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -37,11 +39,16 @@ public class JobController {
     @Autowired
     private JobDao jobDao;
 
-    @RequiresPermissions("WORDCOUNT:CREATE")
     @PostMapping(value = SUBPATH_WORDCOUNT)
     public ResponseEntity<List<Count>> getCounts(@RequestBody TextDto words,
                                                  UriComponentsBuilder uriComponentsBuilder) throws ResultException{
         HttpHeaders headers = ApplicationUtil.getHttpHeaders(uriComponentsBuilder,PATH);
+        Subject subject = SecurityUtils.getSubject();
+        /**if(!subject.isPermitted("WORDCOUNT:CREATE")){
+            throw  new ResultException("fuck shiro");
+        } else {
+            throw  new ResultException("fuck");
+        }*/
         return new ResponseEntity<>(wordCountService.wordCount(words.getWords()),HttpStatus.OK);
     }
 }

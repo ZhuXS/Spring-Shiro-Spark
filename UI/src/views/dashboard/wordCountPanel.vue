@@ -67,11 +67,14 @@
                     this.loading = false
                     return
                 }
-                var postData = {"words" : this.words}
+                var data = {"words" : this.words}
                 return new fetch({
-                    path:'jobs/0',
+                    url:'/jobs/0',
                     method:"post",
-                    postData
+                    data
+                }).then(res => {
+                    this.data = res.data
+                    this.loading = false
                 }).catch(e => {
                     this.$Notice.error({
                         title: 'ERROR',

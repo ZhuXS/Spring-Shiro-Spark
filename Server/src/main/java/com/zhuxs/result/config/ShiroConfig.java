@@ -116,9 +116,11 @@ public class ShiroConfig {
         Map<String,String> filterChainDefinitionManager = new LinkedHashMap<String,String>();
         filterChainDefinitionManager.put("/logout","logout");
         filterChainDefinitionManager.put("/userInfo","authc");
-        //filterChainDefinitionManager.put("/jobs/**","perms['WORDCOUNT:CREATE']");
+        filterChainDefinitionManager.put("/jobs/**","perms[WORDCOUNT:CREATE]");
         filterChainDefinitionManager.put("/admin/**","roles[Admin]");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionManager);
+
+        shiroFilterFactoryBean.setSuccessUrl("/");
         shiroFilterFactoryBean.setUnauthorizedUrl("/notAuthz");
         return shiroFilterFactoryBean;
     }
