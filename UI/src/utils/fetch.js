@@ -34,12 +34,12 @@ service.interceptors.response.use(response => {
     //alert(error.response.data.errorCode.code)
     if(error.response.data.errorCode.code === 40100){
         window.location .href = "login"
-        reject(error)
+        return Promise.reject(error)
     } else if(error.response.data.errorCode.code === 40101){
         window.location.href = "dashboard"
-        reject(error)
+        return Promise.reject(error)
     }else {
-        reject(error)
+        return Promise.reject(error)
     }
 })
 

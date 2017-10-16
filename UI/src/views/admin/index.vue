@@ -28,6 +28,6 @@
         },
         data () {
             return {msg: 'hello'}
-        }
+        },
     }
 </script>

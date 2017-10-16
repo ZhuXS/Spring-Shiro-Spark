@@ -8,6 +8,7 @@ import com.zhuxs.result.domain.enums.ErrorCode;
 import com.zhuxs.result.dto.UserDto;
 import com.zhuxs.result.utils.ApplicationUtil;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.modelmapper.ModelMapper;
@@ -49,9 +50,9 @@ public class AuthController {
         //userDao.save(user);
         try{
             subject.login(token);
-        } catch (Exception e){
+        } catch (AuthenticationException e){
             logger.error("======登录失败======");
-            throw new ResultException();
+            throw new ResultException(ErrorCode.USERNAMEORPASSWORD.getDesc(),ErrorCode.USERNAMEORPASSWORD);
         }
         UserDto loginUserDto = (UserDto) SecurityUtils.getSubject().getSession().getAttribute("user");
 

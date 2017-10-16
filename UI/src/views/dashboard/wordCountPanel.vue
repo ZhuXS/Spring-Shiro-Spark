@@ -77,7 +77,7 @@
                     this.loading = false
                 }).catch(e => {
                     this.$Notice.error({
-                        title: 'ERROR',
+                        title: e.response.data.errorCode.desc,
                         desc: e.response.data.msg,
                         duration: 2
                     })

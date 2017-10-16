@@ -43,8 +43,13 @@
                                 path: '/dashboard'
                             })
                             //this.$Message.success('提交成功!');
+                        }).catch(e => {
+                            this.$Notice.error({
+                                title: e.response.data.errorCode.desc,
+                                desc: e.response.data.msg,
+                                duration: 2
+                            })
                         })
-
                     } else {
                         this.$Message.error('表单验证失败!');
                     }

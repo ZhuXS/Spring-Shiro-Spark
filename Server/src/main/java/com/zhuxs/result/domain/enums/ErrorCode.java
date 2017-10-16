@@ -9,7 +9,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public enum  ErrorCode {
     ERROR(40000,"error"),
     NOTAUTHC(40100,"not authc"),
-    NOTAUTHZ(40101,"not authz");
+    NOTAUTHZ(40101,"not authz"),
+    USERNAMEORPASSWORD(40401,"Username or Password Not Correct");
 
     private final int code;
     private final String desc;
