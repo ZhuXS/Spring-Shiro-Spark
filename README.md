@@ -10,8 +10,11 @@ RESult是Spring-Boot Hibernate Spark Spark-SQL  Shiro iView VueJs... ...的集�
     - [前后端分离下的用户认证和鉴权实践（五） 用户登录状态的保持和单点登录](https://github.com/ZhuXS/RESult/issues/6)
     - [前后端分离下的用户认证和鉴权实践（六） 前端的路由控制和动态渲染](https://github.com/ZhuXS/RESult/issues/7)
  
- - **Spring Boot与Spark的集成实践**
+  - **Spring Boot与Spark的集成实践**
+    
+    - [Spring Boot与Spark的集成实践](https://github.com/ZhuXS/RESult/issues/8)
 
+   
 ## 欢迎批评指教 
     
    
